@@ -90,9 +90,9 @@ void afficherenigme(enigme *E, SDL_Surface *screen)
     if (E->resolution == 1)
         SDL_BlitSurface(E->Yes, NULL, screen, &E->positionFinal);
     else if (E->resolution == 0)
-        {
-            SDL_BlitSurface(E->No, NULL, screen, &E->positionFinal);
-        }
+    {
+        SDL_BlitSurface(E->No, NULL, screen, &E->positionFinal);
+    }
 }
 
 void freeenigme(enigme *E)
@@ -120,13 +120,3 @@ void resolutionenigme(enigme *E, SDL_Surface *screen)
     }
 }
 
-/*void gestiontemps(enigme E, SDL_Surface screen)
-{
-}*/
-
-/*int generation_auto_enig(enigme E, int randenig)
-{
-    srand(time(NULL));
-    randenig = rand() % 11;
-    return randenig;
-}*/

@@ -818,12 +818,18 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 	SDL_Event event;
 	SDL_Rect pos, pos2;
 	character c1=SAFWEN;
-	character c2=OMAR;
+	character c2=SAFWEN;
 
 	int Jcontinuer = 1;
 	int verif = 0;
 	initialiser_background1(&background1);
 	initialiser_background2(&background2);
+
+	SDL_Surface *pencil=IMG_Load("../img/line.png");
+	SDL_Rect pos_pencil;
+	pos_pencil.x=0;
+	pos_pencil.y=(SCREEN_HEIGHT/2)-(pencil->w/2);
+
 
 	initialiser_hero(&safwen, "safwen");
 	initialiser_hero2(&safwen2, "safwen");
@@ -862,6 +868,7 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 		afficher_platforme2(platforme2, background2, ecran);
 		afficher_hero1(safwen, ecran, background1,safwen2);
 		afficher_hero2(safwen2, ecran, background2, safwen);
+		SDL_BlitSurface(pencil,NULL,ecran,&pos_pencil);
 		SDL_Flip(ecran);
 	}
 	free_background(&background1);

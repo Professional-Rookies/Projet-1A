@@ -6,13 +6,14 @@
 #include "enigme.h"
 #include "structs.h"
 #include "menu.h"
+#include "matchsticks.h"
+#include "pendu.h"
 
 void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c, background background, dialogue dial)
 {
 	SDL_Event event;
 	int Jcontinuer = 1;
 	int verif = 0;
-
 
 	//enigme enigme_m;
 	int nb_platformes = 5;
@@ -74,6 +75,8 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		SDL_WM_ToggleFullScreen(ecran);
 	int passage_boucle = 0;
 	int once = 0;
+	int once_enigme = 0;
+	int once_pendu=0;
 
 	start_timer(&timer);
 	int i;
@@ -96,6 +99,19 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 		CollisionParfaite(safwen, background);
 
+		/*if (safwen->position.x >= 700 && once_enigme != 1)
+		{
+			AI_enigme(ecran,safwen);
+			once_enigme = 1;
+		}*/
+
+		if (safwen->position.x >= 900 && once_pendu != 1)
+		{
+			enigme_pendu(ecran,safwen);
+			once_pendu = 1;
+			ecran=SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
+		}
+		
 		plat_coll = collision_platforme(safwen, platformes, nb_platformes);
 
 		for (i = 0; i < nb_platformes; i++)
@@ -206,8 +222,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			}
 		}
 		afficher_hero(*safwen, ecran, background);
-		afficher_portal(portal,background,*safwen,ecran);
-
+		afficher_portal(portal, background, *safwen, ecran);
 
 		afficher_dialogue(dialogue, ecran);
 		show_time(&timer, ecran);
@@ -234,7 +249,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			minimap.pos_image.x = 0;
 			minimap.pos_image.y = 0;
 		}
-
 
 		afficher_minimap(&minimap, *safwen, ecran, mini);
 		SDL_Flip(ecran);
