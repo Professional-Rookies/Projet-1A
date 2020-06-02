@@ -1,3 +1,6 @@
+#ifndef ENIGME_H
+#define ENIGME_H
+
 #include <SDL/SDL.h>
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
@@ -24,3 +27,4 @@ void resolutionenigme(enigme *E, SDL_Surface *screen);
 void gestiontemps(enigme E, SDL_Surface screen);
 int generation_auto_enig(enigme E, int randenig);
 void generation_autoreponse_enig(enigme E, int randenig);
+#endif

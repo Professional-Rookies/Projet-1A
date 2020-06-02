@@ -1,4 +1,6 @@
+
 #include "multiplayer.h"
+
 void initialiser_hero2(hero *h, char name[20])
 {
 	if (TTF_Init() == -1)
@@ -73,7 +75,38 @@ void initialiser_background1(background *b)
 	b->position_background_mask.w = SCREEN_WIDTH;
 	b->position_background_mask.h = SCREEN_HEIGHT / 2;
 }
-
+void animer_platforme2(platforme *p, int x)
+{
+	static int tempsActuel = 0;
+	static int tempsPrecedent = 0;
+	static int sens = 1;
+	if (x == 0)
+	{
+		tempsActuel = SDL_GetTicks();
+		if (tempsActuel - tempsPrecedent > 10)
+		{
+			p->position.x += 1 * sens;
+			tempsPrecedent = tempsActuel;
+		}
+		if (p->position.x >= 1380)
+			sens = -1;
+		if (p->position.x <= 1180)
+			sens = 1;
+	}
+	else if (x == 1)
+	{
+		tempsActuel = SDL_GetTicks();
+		if (tempsActuel - tempsPrecedent > 10)
+		{
+			p->position.y += 1 * sens;
+			tempsPrecedent = tempsActuel;
+		}
+		if (p->position.y >= 1380)
+			sens = -1;
+		if (p->position.y <= 1180)
+			sens = 1;
+	}
+}
 void initialiser_background2(background *b)
 {
 	b->image = IMG_Load("../img/background/x2.jpg");
@@ -152,7 +185,7 @@ void deplacer_hero1(hero *h, background *b, int *Jcontinuer, character c, platfo
 			if (keystates[SDLK_RIGHT] || (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x > h->position.x)))
 			{
 				h->direction = RIGHT;
-				CollisionParfaite(h, *b, p);
+				CollisionParfaite2(h, *b, p);
 
 				if (!h->collision_DOWN && !h->collision_RIGHT)
 				{
@@ -172,7 +205,7 @@ void deplacer_hero1(hero *h, background *b, int *Jcontinuer, character c, platfo
 			if (keystates[SDLK_LEFT] || (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x < h->position.x)))
 			{
 				h->direction = LEFT;
-				CollisionParfaite(h, *b, p);
+				CollisionParfaite2(h, *b, p);
 				if (!h->collision_DOWN && !h->collision_LEFT)
 				{
 
@@ -419,7 +452,7 @@ void deplacer_hero2(hero *h, background *b, int *Jcontinuer, character c, platfo
 			if (keystates[SDLK_d]) //|| (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x > h->position.x)))
 			{
 				h->direction = RIGHT;
-				CollisionParfaite(h, *b, p);
+				CollisionParfaite2(h, *b, p);
 
 				if (!h->collision_DOWN && !h->collision_RIGHT)
 				{
@@ -439,7 +472,7 @@ void deplacer_hero2(hero *h, background *b, int *Jcontinuer, character c, platfo
 			if (keystates[SDLK_q]) //|| (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x < h->position.x)))
 			{
 				h->direction = LEFT;
-				CollisionParfaite(h, *b, p);
+				CollisionParfaite2(h, *b, p);
 				if (!h->collision_DOWN && !h->collision_LEFT)
 				{
 
@@ -664,6 +697,120 @@ void animer_hero2(hero *h, state movement, character c)
 		}
 	}
 }
+void CollisionParfaite2(hero *h, background b, platforme p)
+{
+	SDL_Color couleur_obstacle = {255, 255, 255};
+	int i = 0;
+	int collision = 0;
+	SDL_Rect pos[8];
+
+	h->collision_UP = -1;
+	h->collision_DOWN = -1;
+	h->collision_RIGHT = -1;
+	h->collision_LEFT = -1;
+
+	pos[0].x = h->position.x;
+	pos[0].y = h->position.y;
+	pos[1].x = h->position.x + h->sprite.frame.w / 3.9;
+	pos[1].y = h->position.y;
+	pos[2].x = h->position.x + h->sprite.frame.w / 2;
+	pos[2].y = h->position.y;
+
+	pos[3].x = h->position.x;
+	pos[3].y = h->position.y + h->sprite.frame.h / 2;
+	pos[4].x = h->position.x + h->sprite.frame.w / 2;
+	pos[4].y = h->position.y + h->sprite.frame.h / 2;
+
+	pos[5].x = h->position.x;
+	pos[5].y = h->position.y + h->sprite.frame.h;
+	pos[6].x = h->position.x + h->sprite.frame.w / 3.9;
+	pos[6].y = h->position.y + h->sprite.frame.h;
+	pos[7].x = h->position.x + h->sprite.frame.w / 2;
+	pos[7].y = h->position.y + h->sprite.frame.h;
+
+	for (i = 0; i < 8; i++)
+	{
+		couleur_obstacle = GetPixel(b.background_mask, pos[i].x, pos[i].y);
+		if (couleur_obstacle.r == 0 && couleur_obstacle.g == 0 && couleur_obstacle.b == 0)
+		{
+			if (i == 0)
+			{
+				h->collision_LEFT++;
+				h->collision_UP++;
+			}
+			if (i == 1)
+			{
+				h->collision_UP++;
+			}
+			if (i == 2)
+			{
+				h->collision_RIGHT++;
+				h->collision_UP++;
+			}
+			if (i == 3)
+			{
+				h->collision_LEFT++;
+			}
+			if (i == 4)
+			{
+				h->collision_RIGHT++;
+			}
+			if (i == 5)
+			{
+				h->collision_LEFT++;
+				h->collision_DOWN++;
+			}
+			if (i == 6)
+			{
+				h->collision_DOWN++;
+			}
+			if (i == 7)
+			{
+				h->collision_RIGHT++;
+				h->collision_DOWN++;
+			}
+		}
+	}
+	if (h->collision_LEFT <= 0)
+		h->collision_LEFT = 0;
+	else
+		h->collision_LEFT = 1;
+	if (h->collision_RIGHT <= 0)
+		h->collision_RIGHT = 0;
+	else
+		h->collision_RIGHT = 1;
+	if (h->collision_UP <= 0)
+		h->collision_UP = 0;
+	else
+		h->collision_UP;
+	if (h->collision_DOWN <= 0)
+		h->collision_DOWN = 0;
+	else
+		h->collision_DOWN = 1;
+
+	if (!(h->position.y > p.position.y + p.image->h || h->position.y + h->sprite.frame.h < p.position.y || h->position.x > p.position.x + p.image->w || h->position.x <= p.position.x))
+		h->collision_DOWN = 1;
+	if (!(abs(h->position.y - p.position.y - p.image->h) > 5 || h->position.x > p.position.x + p.image->w || h->position.x <= p.position.x))
+		h->collision_UP = 1;
+	if (abs(h->position.y - b.posCamera.y) < 7)
+		h->collision_UP = 1;
+	if (abs(h->position.y + h->sprite.image->h - b.image->h - b.posCamera.h) < 170)
+		h->collision_DOWN = 1;
+}
+void initialiser_platforme2(platforme *p, int x, int y)
+{
+	p->image = IMG_Load("../img/background/platform.png");
+	p->position.x = x;
+	p->position.y = y;
+	p->image = SDL_DisplayFormat(p->image);
+}
+void afficher_platforme2(platforme p, background b, SDL_Surface *ecran)
+{
+	SDL_Rect pos;
+	pos.x = p.position.x - b.posCamera.x;
+	pos.y = p.position.y - b.posCamera.y;
+	SDL_BlitSurface(p.image, NULL, ecran, &pos);
+}
 void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 {
 	hero safwen, safwen2;
@@ -679,20 +826,20 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 	initialiser_hero2(&safwen2, "safwen");
 
 	platforme platforme, platforme2;
-	initialiser_platforme(&platforme, 1180, 1400);
-	initialiser_platforme(&platforme2, 1180, 1400);
+	initialiser_platforme2(&platforme, 1180, 1400);
+	initialiser_platforme2(&platforme2, 1180, 1400);
 
 	while (Jcontinuer)
 	{
 		deplacer_hero1(&safwen, &background1, &Jcontinuer, c, platforme);
-		CollisionParfaite(&safwen, background1, platforme);
+		CollisionParfaite2(&safwen, background1, platforme);
 		animer_hero(&safwen, safwen.state, c);
-		animer_platforme(&platforme, 0);
+		animer_platforme2(&platforme, 0);
 
 		deplacer_hero2(&safwen2, &background2, &Jcontinuer, c, platforme2);
-		CollisionParfaite(&safwen2, background2, platforme2);
+		CollisionParfaite2(&safwen2, background2, platforme2);
 		animer_hero2(&safwen2, safwen2.state, c);
-		animer_platforme(&platforme2, 0);
+		animer_platforme2(&platforme2, 0);
 
 		printf("STATE: %d\n", safwen.state);
 		printf("STATE: %d\n", safwen2.state);
@@ -708,8 +855,8 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 		SDL_BlitSurface(background2.background_mask, &background2.posCamera, ecran, &background2.position_background_mask);
 		SDL_BlitSurface(background2.image, &background2.posCamera, ecran, &pos2);
 
-		afficher_platforme(platforme, background1, ecran);
-		afficher_platforme(platforme2, background2, ecran);
+		afficher_platforme2(platforme, background1, ecran);
+		afficher_platforme2(platforme2, background2, ecran);
 		afficher_hero1(safwen, ecran, background1,safwen2);
 		afficher_hero2(safwen2, ecran, background2, safwen);
 		SDL_Flip(ecran);

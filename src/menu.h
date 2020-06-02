@@ -1,3 +1,5 @@
+#ifndef MENU_H
+#define MENU_H
 #include <stdio.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
@@ -45,3 +47,4 @@ void cheat(SDL_Surface *ecran, etat *etat,parameter p);
 
 
 void play_credits(SDL_Surface *screen, etat *etat, parameter p);
+#endif
