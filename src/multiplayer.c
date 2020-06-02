@@ -816,6 +816,9 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 	hero safwen, safwen2;
 	background background1, background2;
 	SDL_Event event;
+	SDL_Rect pos, pos2;
+	character c1=SAFWEN;
+	character c2=OMAR;
 
 	int Jcontinuer = 1;
 	int verif = 0;
@@ -831,20 +834,20 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 
 	while (Jcontinuer)
 	{
-		deplacer_hero1(&safwen, &background1, &Jcontinuer, c, platforme);
+		deplacer_hero1(&safwen, &background1, &Jcontinuer, c1, platforme);
 		CollisionParfaite2(&safwen, background1, platforme);
-		animer_hero(&safwen, safwen.state, c);
+		animer_hero(&safwen, safwen.state, c1);
 		animer_platforme2(&platforme, 0);
 
-		deplacer_hero2(&safwen2, &background2, &Jcontinuer, c, platforme2);
+		deplacer_hero2(&safwen2, &background2, &Jcontinuer, c2, platforme2);
 		CollisionParfaite2(&safwen2, background2, platforme2);
-		animer_hero2(&safwen2, safwen2.state, c);
+		animer_hero2(&safwen2, safwen2.state, c2);
 		animer_platforme2(&platforme2, 0);
 
 		printf("STATE: %d\n", safwen.state);
 		printf("STATE: %d\n", safwen2.state);
 
-		SDL_Rect pos, pos2;
+
 		pos.x = 0;
 		pos.y = 0;
 		pos2.x = 0;
