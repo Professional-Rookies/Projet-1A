@@ -11,7 +11,7 @@ void initialiser_hero2(hero *h, char name[20])
 
 	char image_load[40] = "";
 	char score_str[10] = "";
-	h->position.x = 500;
+	h->position.x = 550;
 	h->position.y = 1565;
 
 	h->current_ground_position = h->position.y;
@@ -45,11 +45,11 @@ void initialiser_hero2(hero *h, char name[20])
 	h->vie_hero.heart = IMG_Load("../img/hero/heart1.png");
 
 	h->vie_hero.position_heart_a.x = 0;
-	h->vie_hero.position_heart_a.y = 0;
+	h->vie_hero.position_heart_a.y = SCREEN_HEIGHT/2;
 	h->vie_hero.position_heart_b.x = 50;
-	h->vie_hero.position_heart_b.y = 0;
-	h->vie_hero.position_heart_c.x = 500;
-	h->vie_hero.position_heart_c.y = 0;
+	h->vie_hero.position_heart_b.y = SCREEN_HEIGHT/2;
+	h->vie_hero.position_heart_c.x = 100;
+	h->vie_hero.position_heart_c.y = SCREEN_HEIGHT/2;
 
 	h->score_hero.couleurNoire.b = 255;
 	h->score_hero.couleurNoire.g = 255;
