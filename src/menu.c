@@ -1,7 +1,6 @@
 #include "menu.h"
 #include "background.h"
 
-
 #define SIZE 100
 #define TIME 30
 
@@ -498,6 +497,11 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	pos_new_game.x = 227;
 	pos_new_game.y = 264;
 
+	SDL_Surface *multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+	SDL_Rect pos_multiplayer;
+	pos_multiplayer.x = 227;
+	pos_multiplayer.y = 309;
+
 	SDL_Surface *back = IMG_Load("../img/menu/buttons/back.png");
 	SDL_Rect pos_back;
 	pos_back.x = 330;
@@ -517,16 +521,25 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 		case 0:
 			cont = IMG_Load("../img/menu/buttons/continue_active.png");
 			new_game = IMG_Load("../img/menu/buttons/new_game.png");
+			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
 			back = IMG_Load("../img/menu/buttons/back.png");
 			break;
 		case 1:
 			new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
 			cont = IMG_Load("../img/menu/buttons/continue.png");
+			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
 			back = IMG_Load("../img/menu/buttons/back.png");
 			break;
 		case 2:
+			multiplayer = IMG_Load("../img/menu/buttons/continue_active.png");
+			cont = IMG_Load("../img/menu/buttons/continue.png");
+			new_game = IMG_Load("../img/menu/buttons/new_game.png");
+			back = IMG_Load("../img/menu/buttons/back.png");
+			break;
+		case 3:
 			back = IMG_Load("../img/menu/buttons/back_active.png");
 			cont = IMG_Load("../img/menu/buttons/continue.png");
+			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
 			new_game = IMG_Load("../img/menu/buttons/new_game.png");
 			break;
 		}
@@ -565,6 +578,10 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 						continuer = 0;
 						break;
 					case 2:
+						*etat = MULTIPLAYER;
+						continuer = 0;
+						break;
+					case 3:
 						*etat = MENU;
 						continuer = 0;
 					}
@@ -580,6 +597,10 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				{
 					new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
 				}
+				else if (event.motion.x < pos_multiplayer.x + multiplayer->w && event.motion.x > pos_multiplayer.x && event.motion.y < pos_multiplayer.y + multiplayer->h && event.motion.y > pos_multiplayer.y)
+				{
+					multiplayer = IMG_Load("../img/menu/buttons/continue_active.png");
+				}
 				else if (event.motion.x < pos_back.x + back->w && event.motion.x > pos_back.x && event.motion.y < pos_back.y + back->h && event.motion.y > pos_back.y)
 				{
 					back = IMG_Load("../img/menu/buttons/back_active.png");
@@ -587,6 +608,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				else
 				{
 					cont = IMG_Load("../img/menu/buttons/continue.png");
+					multiplayer = IMG_Load("../img/menu/buttons/continue.png");
 					new_game = IMG_Load("../img/menu/buttons/new_game.png");
 					back = IMG_Load("../img/menu/buttons/back.png");
 				}
@@ -605,6 +627,11 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 						*etat = CHARACTER;
 						continuer = 0;
 					}
+					else if (event.motion.x < pos_multiplayer.x + multiplayer->w && event.motion.x > pos_multiplayer.x && event.motion.y < pos_multiplayer.y + multiplayer->h && event.motion.y > pos_multiplayer.y)
+					{
+						*etat = MULTIPLAYER;
+						continuer = 0;
+					}
 					else if (event.motion.x < pos_back.x + back->w && event.motion.x > pos_back.x && event.motion.y < pos_back.y + back->h && event.motion.y > pos_back.y)
 					{
 						*etat = MENU;
@@ -616,6 +643,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 		}
 		SDL_BlitSurface(character_choice, NULL, screen, &position_character_choice);
 		SDL_BlitSurface(cont, NULL, screen, &pos_continue);
+		SDL_BlitSurface(multiplayer, NULL, screen, &pos_multiplayer);
 		SDL_BlitSurface(new_game, NULL, screen, &pos_new_game);
 		SDL_BlitSurface(back, NULL, screen, &pos_back);
 		SDL_Flip(screen);

@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "structs.h"
 #include "defs.h"
+#include "multiplayer.h"
 
 void main(int argc, char *argv[])
 {
@@ -21,8 +22,8 @@ void main(int argc, char *argv[])
 
     SDL_Surface *screen;
 
-    hero safwen;
-    background background;
+    hero safwen, safwen2;
+    background background, background1, background2;
     parameter parameter;
     dialogue d;
 
@@ -48,6 +49,9 @@ void main(int argc, char *argv[])
             break;
         case GAME:
             jeu(screen, &etat, &safwen, &parameter, c, background, d);
+            break;
+        case MULTIPLAYER:
+            multiplayer(screen, &etat, &parameter, c);
             break;
         case SETTING:
             settings(screen, &parameter, &etat);

@@ -8,7 +8,6 @@
 #include "hero.h"
 #include "background.h"
 #include "entite_secondaire.h"
-#include "SDL/SDL_rotozoom.h"
 
 typedef enum Choice_button
 {

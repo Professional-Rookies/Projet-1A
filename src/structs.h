@@ -6,7 +6,6 @@
 #include "SDL/SDL_mixer.h"
 #include <time.h>
 #include "SDL/SDL_ttf.h"
-#include "SDL/SDL_rotozoom.h"
 
 typedef enum etat
 {
@@ -17,6 +16,7 @@ typedef enum etat
     GAME_OVER,
     EXIT,
     CHARACTER,
+    MULTIPLAYER,
     GAME_LOAD,
     INTRO,
     CHEAT,
