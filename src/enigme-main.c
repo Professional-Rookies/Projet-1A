@@ -11,8 +11,9 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	SDL_Color couleurTitre = {125, 65, 10};
 	TTF_Font *policeTitre = NULL;
 
-	SDL_Surface *texteMot = NULL;
-	SDL_Rect positionTextMot;
+	SDL_Surface *texteConsigne = NULL;
+	SDL_Rect positionConsigne;
+	TTF_Font *policeConsigne = NULL;
 	SDL_Color couleurMot = {255, 255, 255};
 	TTF_Font *policeMot = NULL;
 	SDL_Surface *texte;
@@ -21,8 +22,8 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	SDL_Surface *FINAL = NULL;
 	SDL_Rect positionFINAL;
 
-	positionFINAL.x = 300;
-	positionFINAL.y = 200;
+	positionFINAL.x = 480;
+	positionFINAL.y = 80;
 
 	SDL_Event event;
 	int continuer = 1;
@@ -33,18 +34,12 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 		exit(EXIT_FAILURE);
 	}
 
-	/*if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		printf("unable to initialize SDL : %s\n", SDL_GetError());
-		return 1;
-	}*/
-	screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	if (screen == NULL)
 	{
 		printf("unable to set video mode : %s\n", SDL_GetError());
 		return 1;
 	}
-	SDL_WM_SetCaption("--- Enigme Find The Hidden Word --- ", NULL);
 	SDL_ShowCursor(0);
 	background = IMG_Load("../img/enigme/background.jpg");
 	if (background == NULL)
@@ -55,8 +50,8 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	SDL_Surface *image;
 	image = IMG_Load("../img/enigme/pendu-1.png");
 	SDL_Rect positionImage;
-	positionImage.x = 0;
-	positionImage.y = 0;
+	positionImage.x = 80;
+	positionImage.y = 60;
 
 	srand(time(NULL));
 	int positionMot = rand() / (double)RAND_MAX * (NB_WORD - 1);
@@ -87,7 +82,7 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	}
 	fclose(fp);
 
-	policeTitre = TTF_OpenFont("../fonts/infos.ttf", 45);
+	policeTitre = TTF_OpenFont("../fonts/infos.ttf", 35);
 	texteTitre = TTF_RenderText_Blended(policeTitre, "Le Pendu", couleurTitre);
 	positionTextTitre.x = 220;
 	positionTextTitre.y = 15;
@@ -95,10 +90,10 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	positionBackground.x = 0;
 	positionBackground.y = 0;
 
-	policeMot = TTF_OpenFont("../fonts/table.ttf", 45);
-	texteMot = TTF_RenderText_Blended(policeMot, word, couleurMot);
-	positionTextMot.x = 250;
-	positionTextMot.y = 250;
+	policeConsigne = TTF_OpenFont("../fonts/chalk_2.ttf", 19);
+	texteConsigne = TTF_RenderText_Blended(policeConsigne,"Trouvez le mot cache.Vous avez un nombre limite d'essai!", couleurMot);
+	positionConsigne.x = 90;
+	positionConsigne.y = 480;
 
 	char wordHidden[MAX_LEN];
 	strcpy(wordHidden, word);
@@ -106,10 +101,10 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	int i;
 	for (i = 0; i < strlen(word); i++)
 		wordHidden[i] = '-';
-	policeMot = TTF_OpenFont("../fonts/table.ttf", 45);
+	policeMot = TTF_OpenFont("../fonts/table.ttf", 35);
 	texte = TTF_RenderText_Blended(policeMot, wordHidden, couleurMot);
-	positionText.x = 300;
-	positionText.y = 300;
+	positionText.x = 150;
+	positionText.y = 350;
 
 	int nombrelettre = 0;
 	int j;
@@ -139,6 +134,8 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 								wordHidden[j] = c;
 								nombrelettre++;
 								t++;
+								printf("nbr lettres:%d\n", nombrelettre);
+								printf("nbr tours:%d\n", t);
 							}
 							texte = TTF_RenderText_Blended(policeMot, wordHidden, couleurMot);
 						}
@@ -146,6 +143,9 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 					else
 					{
 						rang++;
+						printf("nbr lettres:%d\n", nombrelettre);
+						printf("nbr tours:%d\n", t);
+						printf("rang : %d\n",rang);
 						break;
 					}
 				}
@@ -192,20 +192,20 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 			if (nombrelettre == strlen(word))
 			{
 				FINAL = IMG_Load("../img/enigme/gained.png");
-				h->score_hero.valeur_score+=20;
+				h->score_hero.valeur_score += 20;
 				continuer = 0;
 			}
 			else if (t == 0 || rang > 12)
 			{
 				FINAL = IMG_Load("../img/enigme/lost.png");
-				h->score_hero.valeur_score-=20;
+				h->score_hero.valeur_score -= 20;
 				continuer = 0;
 			}
 		}
 		SDL_BlitSurface(background, NULL, screen, &positionBackground);
 		SDL_BlitSurface(image, NULL, screen, &positionImage);
 		SDL_BlitSurface(texteTitre, NULL, screen, &positionTextTitre);
-		SDL_BlitSurface(texteMot, NULL, screen, &positionTextMot);
+		SDL_BlitSurface(texteConsigne, NULL, screen, &positionConsigne);
 		SDL_BlitSurface(texte, NULL, screen, &positionText);
 		SDL_BlitSurface(FINAL, NULL, screen, &positionFINAL);
 		SDL_Flip(screen);
@@ -220,6 +220,5 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	TTF_CloseFont(policeMot);
 	TTF_Quit();
 	SDL_FreeSurface(texteTitre);
-	SDL_FreeSurface(texteMot);
-
+	SDL_FreeSurface(texteConsigne);
 }
