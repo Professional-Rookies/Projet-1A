@@ -828,7 +828,7 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 	SDL_Surface *pencil=IMG_Load("../img/line.png");
 	SDL_Rect pos_pencil;
 	pos_pencil.x=0;
-	pos_pencil.y=(SCREEN_HEIGHT/2)-(pencil->w/2);
+	pos_pencil.y=(SCREEN_HEIGHT/2)-45;
 
 
 	initialiser_hero(&safwen, "safwen");

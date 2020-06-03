@@ -490,14 +490,14 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	SDL_Surface *cont = IMG_Load("../img/menu/buttons/continue.png");
 	SDL_Rect pos_continue;
 	pos_continue.x = 227;
-	pos_continue.y = 219;
+	pos_continue.y = 264;
 
 	SDL_Surface *new_game = IMG_Load("../img/menu/buttons/new_game.png");
 	SDL_Rect pos_new_game;
 	pos_new_game.x = 227;
-	pos_new_game.y = 264;
+	pos_new_game.y = 219;
 
-	SDL_Surface *multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+	SDL_Surface *multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 	SDL_Rect pos_multiplayer;
 	pos_multiplayer.x = 227;
 	pos_multiplayer.y = 309;
@@ -519,19 +519,19 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 		switch (rang)
 		{
 		case 0:
-			cont = IMG_Load("../img/menu/buttons/continue_active.png");
-			new_game = IMG_Load("../img/menu/buttons/new_game.png");
-			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+			new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
+			cont = IMG_Load("../img/menu/buttons/continue.png");
+			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 			back = IMG_Load("../img/menu/buttons/back.png");
 			break;
 		case 1:
-			new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
-			cont = IMG_Load("../img/menu/buttons/continue.png");
-			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+			cont = IMG_Load("../img/menu/buttons/continue_active.png");
+			new_game = IMG_Load("../img/menu/buttons/new_game.png");
+			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 			back = IMG_Load("../img/menu/buttons/back.png");
 			break;
 		case 2:
-			multiplayer = IMG_Load("../img/menu/buttons/continue_active.png");
+			multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
 			cont = IMG_Load("../img/menu/buttons/continue.png");
 			new_game = IMG_Load("../img/menu/buttons/new_game.png");
 			back = IMG_Load("../img/menu/buttons/back.png");
@@ -539,7 +539,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 		case 3:
 			back = IMG_Load("../img/menu/buttons/back_active.png");
 			cont = IMG_Load("../img/menu/buttons/continue.png");
-			multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 			new_game = IMG_Load("../img/menu/buttons/new_game.png");
 			break;
 		}
@@ -552,29 +552,29 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				{
 				case SDLK_DOWN:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == 0 || rang == 1)
+					if (rang == 0 || rang == 1 || rang == 2)
 						rang++;
 					else
 						rang = 0;
 					break;
 				case SDLK_UP:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == 2 || rang == 1)
+					if (rang == 2 || rang == 1 || rang == 3)
 						rang--;
 					else
-						rang = 2;
+						rang = 3;
 					break;
 				case SDLK_RETURN:
 					Mix_PlayChannel(-1, p->click, 0);
 					switch (rang)
 					{
 					case 0:
-						load_game(h, b, c, d);
-						*etat = GAME;
+						*etat = CHARACTER;
 						continuer = 0;
 						break;
 					case 1:
-						*etat = CHARACTER;
+						load_game(h, b, c, d);
+						*etat = GAME;
 						continuer = 0;
 						break;
 					case 2:
@@ -599,7 +599,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				}
 				else if (event.motion.x < pos_multiplayer.x + multiplayer->w && event.motion.x > pos_multiplayer.x && event.motion.y < pos_multiplayer.y + multiplayer->h && event.motion.y > pos_multiplayer.y)
 				{
-					multiplayer = IMG_Load("../img/menu/buttons/continue_active.png");
+					multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
 				}
 				else if (event.motion.x < pos_back.x + back->w && event.motion.x > pos_back.x && event.motion.y < pos_back.y + back->h && event.motion.y > pos_back.y)
 				{
@@ -608,7 +608,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				else
 				{
 					cont = IMG_Load("../img/menu/buttons/continue.png");
-					multiplayer = IMG_Load("../img/menu/buttons/continue.png");
+					multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 					new_game = IMG_Load("../img/menu/buttons/new_game.png");
 					back = IMG_Load("../img/menu/buttons/back.png");
 				}
