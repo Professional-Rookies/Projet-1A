@@ -331,7 +331,7 @@ void deplacer_hero(hero *h, background *b, int *Jcontinuer, character c, platfor
 						h->position.x = 0;
 				}
 			}
-			SDL_EnableKeyRepeat(2, 2);
+			//SDL_EnableKeyRepeat(2, 2);
 			while (SDL_PollEvent(&event))
 			{
 				switch (event.type)
