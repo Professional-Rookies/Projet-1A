@@ -203,6 +203,7 @@ void cheat(SDL_Surface *ecran, etat *etat, parameter p)
 						message.color.g = 205;
 						message.color.b = 50;
 						message.text = TTF_RenderText_Blended(entry.font, "NOICE!", message.color);
+						entry_char[0] = '\0';
 					}
 					else
 					{
@@ -210,6 +211,7 @@ void cheat(SDL_Surface *ecran, etat *etat, parameter p)
 						message.color.g = 0;
 						message.color.b = 0;
 						message.text = TTF_RenderText_Blended(entry.font, "WRONG PASSWORD", message.color);
+						entry_char[0] = '\0';
 					}
 					printf("%s %s\n", pass[hash(entry_char)], pass[hash("password")]);
 					printf("hacked: %s\n", hack(pass));
@@ -417,6 +419,58 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 				continuer = 0;
 				*etat = EXIT;
 				break;
+			case SDL_MOUSEMOTION:
+				if (event.motion.x > restart.position.x && event.motion.x < restart.position.x + restart.text->w && event.motion.y > restart.position.y && event.motion.y < restart.position.y + restart.text->h)
+				{
+					main_menu.color.r = 255;
+					main_menu.color.g = 255;
+					main_menu.color.b = 255;
+					main_menu.size = 50;
+
+					restart.color.r = 255;
+					restart.color.g = 0;
+					restart.color.b = 0;
+					//restart.size = 65;
+					rang = 0;
+				}
+				else if (event.motion.x > main_menu.position.x && event.motion.x < main_menu.position.x + main_menu.text->w && event.motion.y > main_menu.position.y && event.motion.y < main_menu.position.y + main_menu.text->h)
+				{
+					main_menu.color.r = 255;
+					main_menu.color.g = 0;
+					main_menu.color.b = 0;
+					main_menu.size = 65;
+
+					restart.color.r = 255;
+					restart.color.g = 255;
+					restart.color.b = 255;
+					//restart.size = 50;
+					rang = 1;
+				}
+				else
+				{
+					restart.color.r = 255;
+					restart.color.g = 255;
+					restart.color.b = 255;
+
+					main_menu.color.r = 255;
+					main_menu.color.g = 255;
+					main_menu.color.b = 255;
+				}
+
+				break;
+			case SDL_MOUSEBUTTONUP:
+				if (event.motion.x > restart.position.x && event.motion.x < restart.position.x + restart.text->w && event.motion.y > restart.position.y && event.motion.y < restart.position.y + restart.text->h)
+				{
+					*etat = GAME;
+					initialiser_hero(h, "safwen");
+					continuer = 0;
+				}
+				if (event.motion.x > main_menu.position.x && event.motion.x < main_menu.position.x + main_menu.text->w && event.motion.y > main_menu.position.y && event.motion.y < main_menu.position.y + main_menu.text->h)
+				{
+					*etat = MENU;
+					continuer = 0;
+				}
+				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym)
 				{
@@ -507,7 +561,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	pos_back.x = 330;
 	pos_back.y = 330;
 
-	int rang = 0;
+	int rang = -1;
 
 	if (!p->mute)
 		Mix_ResumeMusic();
@@ -516,33 +570,6 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 
 	while (continuer)
 	{
-		switch (rang)
-		{
-		case 0:
-			new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
-			cont = IMG_Load("../img/menu/buttons/continue.png");
-			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-			back = IMG_Load("../img/menu/buttons/back.png");
-			break;
-		case 1:
-			cont = IMG_Load("../img/menu/buttons/continue_active.png");
-			new_game = IMG_Load("../img/menu/buttons/new_game.png");
-			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-			back = IMG_Load("../img/menu/buttons/back.png");
-			break;
-		case 2:
-			multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
-			cont = IMG_Load("../img/menu/buttons/continue.png");
-			new_game = IMG_Load("../img/menu/buttons/new_game.png");
-			back = IMG_Load("../img/menu/buttons/back.png");
-			break;
-		case 3:
-			back = IMG_Load("../img/menu/buttons/back_active.png");
-			cont = IMG_Load("../img/menu/buttons/continue.png");
-			multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-			new_game = IMG_Load("../img/menu/buttons/new_game.png");
-			break;
-		}
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -552,17 +579,92 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				{
 				case SDLK_DOWN:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == 0 || rang == 1 || rang == 2)
+					if (rang == -1 || rang == 4)
+					{
+						if (rang == 4)
+							rang = 0;
+						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
 						rang++;
+					}
+					else if (rang == 0)
+					{
+						cont = IMG_Load("../img/menu/buttons/continue_active.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang++;
+					}
+					else if (rang == 1)
+					{
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang++;
+					}
+					else if (rang == 2)
+					{
+						back = IMG_Load("../img/menu/buttons/back_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						rang++;
+					}
 					else
-						rang = 0;
+					{
+						back = IMG_Load("../img/menu/buttons/back.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						rang = -1;
+					}
+
 					break;
 				case SDLK_UP:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == 2 || rang == 1 || rang == 3)
-						rang--;
-					else
+					if (rang == 1)
+					{
+						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang = 0;
+					}
+					else if (rang == 2)
+					{
+						cont = IMG_Load("../img/menu/buttons/continue_active.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang = 1;
+					}
+					else if (rang == 3)
+					{
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang = 2;
+					}
+					else if (rang == -1)
+					{
+						back = IMG_Load("../img/menu/buttons/back_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
 						rang = 3;
+					}
+					else
+					{
+						back = IMG_Load("../img/menu/buttons/back.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						rang = -1;
+					}
 					break;
 				case SDLK_RETURN:
 					Mix_PlayChannel(-1, p->click, 0);
@@ -592,18 +694,30 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				if (event.motion.x > pos_continue.x && event.motion.x < pos_continue.x + cont->w && event.motion.y > pos_continue.y && event.motion.y < pos_continue.y + cont->h)
 				{
 					cont = IMG_Load("../img/menu/buttons/continue_active.png");
+					multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+					new_game = IMG_Load("../img/menu/buttons/new_game.png");
+					back = IMG_Load("../img/menu/buttons/back.png");
 				}
 				else if (event.motion.x > pos_new_game.x && event.motion.x < pos_new_game.x + new_game->w && event.motion.y > pos_new_game.y && event.motion.y < pos_new_game.y + new_game->h)
 				{
 					new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
+					cont = IMG_Load("../img/menu/buttons/continue.png");
+					back = IMG_Load("../img/menu/buttons/back.png");
+					multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 				}
 				else if (event.motion.x < pos_multiplayer.x + multiplayer->w && event.motion.x > pos_multiplayer.x && event.motion.y < pos_multiplayer.y + multiplayer->h && event.motion.y > pos_multiplayer.y)
 				{
 					multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
+					new_game = IMG_Load("../img/menu/buttons/new_game.png");
+					cont = IMG_Load("../img/menu/buttons/continue.png");
+					back = IMG_Load("../img/menu/buttons/back.png");
 				}
 				else if (event.motion.x < pos_back.x + back->w && event.motion.x > pos_back.x && event.motion.y < pos_back.y + back->h && event.motion.y > pos_back.y)
 				{
 					back = IMG_Load("../img/menu/buttons/back_active.png");
+					cont = IMG_Load("../img/menu/buttons/continue.png");
+					multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+					new_game = IMG_Load("../img/menu/buttons/new_game.png");
 				}
 				else
 				{

@@ -10,6 +10,12 @@
 #include "pendu.h"
 #include "SDL/SDL_rotozoom.h"
 
+#define NB_PLATFORMES 5
+#define NB_COINS 5
+#define NB_HEARTS 1
+#define NB_INSTRUCTIONS 6
+#define NB_ENNEMIES 2
+
 void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c, background background, dialogue dial)
 {
 	SDL_Event event;
@@ -17,11 +23,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	int verif = 0;
 
 	//enigme enigme_m;
-	int nb_platformes = 5;
-	int nb_coins = 5;
-	int nb_hearts = 1;
-	int nb_instructions = 6;
-	int nb_ennemies = 2;
+
 
 	int tempsActuel = 0;
 	int tempsPrecedent = 0;
@@ -33,13 +35,13 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	SDL_Rect pos_rel;
 
-	entite ennemies[nb_ennemies];
-	platforme platformes[nb_platformes];
+	entite ennemies[NB_ENNEMIES];
+	platforme platformes[NB_PLATFORMES];
 	text game_over_txt;
 	dialogue dialogue = dial;
-	text instructions[nb_instructions];
-	power_up coins[nb_coins];
-	heart hearts[nb_hearts];
+	text instructions[NB_INSTRUCTIONS];
+	power_up coins[NB_COINS];
+	heart hearts[NB_HEARTS];
 	timer timer;
 	minimap minimap;
 	portal portal;
@@ -57,16 +59,16 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	init_timer(&timer);
 	initialiser_dialogue(&dialogue, ecran, c);
 	initialiser_background(&background);
-	initialiser_ennemies(ennemies, nb_ennemies);
+	initialiser_ennemies(ennemies, NB_ENNEMIES);
 	initialiser_minimap(&minimap, background, *safwen);
 
 	initialiser_portal(&portal);
 
-	initialiser_plats(platformes, nb_platformes);
+	initialiser_plats(platformes, NB_PLATFORMES);
 
-	initialiser_instructions(instructions, nb_instructions);
-	initialiser_coins(coins, nb_coins);
-	initialiser_hearts(hearts, nb_hearts);
+	initialiser_instructions(instructions, NB_INSTRUCTIONS);
+	initialiser_coins(coins, NB_COINS);
+	initialiser_hearts(hearts, NB_HEARTS);
 
 	initialiser_text(&game_over_txt, "", SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2, 90);
 
@@ -98,7 +100,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	while (Jcontinuer)
 	{
-		deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, nb_platformes, &mini);
+		deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, NB_PLATFORMES, &mini);
 
 		CollisionParfaite(safwen, background);
 
@@ -115,9 +117,9 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			ecran=SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
 		}
 		
-		plat_coll = collision_platforme(safwen, platformes, nb_platformes);
+		plat_coll = collision_platforme(safwen, platformes, NB_PLATFORMES);
 
-		for (i = 0; i < nb_platformes; i++)
+		for (i = 0; i < NB_PLATFORMES; i++)
 		{
 			tempsActuel = SDL_GetTicks();
 			if (safwen->collision_DOWN_PLAT && safwen->state == IDLE)
@@ -175,7 +177,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			start_timer(&timer);
 		}
 
-		for (i = 0; i < nb_ennemies; i++)
+		for (i = 0; i < NB_ENNEMIES; i++)
 		{
 			if (abs(safwen->position.x - ennemies[i].position.x) <= 250 && abs(safwen->position.y - ennemies[i].position.y) >= 0 && abs(safwen->position.y - ennemies[i].position.y) <= 50)
 				attack_entite(&ennemies[i], safwen);
@@ -183,26 +185,26 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 				deplacer_alea(&ennemies[i]);
 		}
 
-		coins_interaction(coins, nb_coins, safwen);
-		hearts_interaction(hearts, nb_hearts, safwen);
+		coins_interaction(coins, NB_COINS, safwen);
+		hearts_interaction(hearts, NB_HEARTS, safwen);
 
 		playing_dialogue(&dialogue, *safwen, ecran, timer);
 
-		animer_ennemies(ennemies, nb_ennemies);
+		animer_ennemies(ennemies, NB_ENNEMIES);
 		animer_hero(safwen, safwen->state, c);
-		animer_coins(coins, nb_coins);
-		animer_hearts(hearts, nb_hearts);
-		animer_platformes(platformes, nb_platformes);
+		animer_coins(coins, NB_COINS);
+		animer_hearts(hearts, NB_HEARTS);
+		animer_platformes(platformes, NB_PLATFORMES);
 		animer_portal(&portal);
 
 		afficher_background(&background, ecran);
-		afficher_platformes(platformes, background, ecran, nb_platformes);
+		afficher_platformes(platformes, background, ecran, NB_PLATFORMES);
 
-		afficher_coins(coins, nb_coins, background, ecran);
-		afficher_hearts(hearts, nb_hearts, background, ecran);
-		afficher_ennemies(ennemies, nb_ennemies, ecran, background);
+		afficher_coins(coins, NB_COINS, background, ecran);
+		afficher_hearts(hearts, NB_HEARTS, background, ecran);
+		afficher_ennemies(ennemies, NB_ENNEMIES, ecran, background);
 
-		afficher_instructions(instructions, nb_instructions, background, ecran);
+		afficher_instructions(instructions, NB_INSTRUCTIONS, background, ecran);
 
 		if (Jcontinuer == 0 && safwen->vie_hero.nb_vie != 0)
 			(*etat) = EXIT;
@@ -260,12 +262,12 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	}
 	free_hero(safwen);
 	free_background(&background);
-	free_ennemies(ennemies, nb_ennemies);
-	free_pu(coins, nb_coins);
-	free_hearts(hearts, nb_hearts);
-	free_instructions(instructions, nb_instructions);
+	free_ennemies(ennemies, NB_ENNEMIES);
+	free_pu(coins, NB_COINS);
+	free_hearts(hearts, NB_HEARTS);
+	free_instructions(instructions, NB_INSTRUCTIONS);
 	free_dialogue(&dialogue);
-	free_platformes(platformes, nb_platformes);
+	free_platformes(platformes, NB_PLATFORMES);
 	free_minimap(&minimap);
 	free_portal(&portal);
 }
