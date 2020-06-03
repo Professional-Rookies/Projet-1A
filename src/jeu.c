@@ -98,7 +98,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	while (Jcontinuer)
 	{
-
 		deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, nb_platformes, &mini);
 
 		CollisionParfaite(safwen, background);
