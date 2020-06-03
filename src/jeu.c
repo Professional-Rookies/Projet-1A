@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "matchsticks.h"
 #include "pendu.h"
+#include "SDL/SDL_rotozoom.h"
 
 void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c, background background, dialogue dial)
 {
@@ -26,6 +27,9 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	int tempsPrecedent = 0;
 	int mini = 1;
 	int idk = 1;
+
+	
+
 
 	SDL_Rect pos_rel;
 
