@@ -469,6 +469,7 @@ void play_intro(SDL_Surface *tab[], SDL_Surface *ecran, etat *etat, parameter *p
 		*etat = INTRO;
 	}
 }
+
 void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 {
 	SDL_Event event;
@@ -606,6 +607,7 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 			}
 		}
 		SDL_BlitSurface(game_over_bg, NULL, screen, &position_game_over);
+		SDL_BlitSurface(h->score_hero.texte_score, NULL, screen, &h->score_hero.position_texte);
 		afficher_text_2(restart, screen, "Restart");
 		afficher_text_2(main_menu, screen, "Main Menu");
 		SDL_Flip(screen);

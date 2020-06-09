@@ -1,13 +1,12 @@
 digraph "Hero"
 {
- // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="Hero",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="structure de l'hero qui utilise d'autres structures définies (sprite, vie et score) et des enum (dire..."];
+  Node1 [label="Hero",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sprite" ];
-  Node2 [label="Sprite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structSprite.html",tooltip="ustilisé dans la fonction animer_hero en parcourant le spritesheet selon STATE de l'hero"];
+  Node2 [label="Sprite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structSprite.html",tooltip="ustilisé dans la fonction animer_hero en parcourant le spritesheet selon STATE de l&#39;hero ..."];
   Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" score_hero" ];
-  Node3 [label="Score",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structScore.html",tooltip=" "];
+  Node3 [label="Score",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structScore.html"];
   Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vie_hero" ];
-  Node4 [label="Vie",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structVie.html",tooltip=" "];
+  Node4 [label="Vie",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structVie.html"];
 }

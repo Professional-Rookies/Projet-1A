@@ -2,13 +2,13 @@
 
 void initenigme(enigme *E)
 {
-    E->background = IMG_Load("../img/enigme/bgenigme.jpg");
+    E->background = IMG_Load("../img/enigme/whiteboard.png");
     E->ansewr1 = IMG_Load("../img/enigme/text1.png");
     E->ansewr2 = IMG_Load("../img/enigme/text2.png");
     E->ansewr3 = IMG_Load("../img/enigme/text3.png");
     E->ansewr4 = IMG_Load("../img/enigme/correct.png");
-    E->bgansewr = IMG_Load("../img/enigme/ansewr1.jpg");
-    E->bghover = IMG_Load("../img/enigme/ansewr2.jpg");
+    E->bgansewr = IMG_Load("../img/enigme/ansewr2.jpg");
+    E->bghover = IMG_Load("../img/enigme/ansewr1.jpg");
     E->Question = IMG_Load("../img/enigme/question.png");
     E->Yes = IMG_Load("../img/enigme/yes.png");
     E->No = IMG_Load("../img/enigme/no.png");
@@ -25,8 +25,8 @@ void initenigme(enigme *E)
     E->positionAnsewr3.y = 400;
     E->positionAnsewr4.x = 450;
     E->positionAnsewr4.y = 400;
-    E->positionFinal.x = 100;
-    E->positionFinal.y = 100;
+    E->positionFinal.x = 500;
+    E->positionFinal.y = 50;
 
     E->rangR = 0;
     E->resolution = -1;

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['matchstick_29',['Matchstick',['../structMatchstick.html',1,'']]],
-  ['minimap_30',['Minimap',['../structMinimap.html',1,'']]]
+  ['matchstick',['Matchstick',['../structMatchstick.html',1,'']]],
+  ['minimap',['Minimap',['../structMinimap.html',1,'']]]
 ];

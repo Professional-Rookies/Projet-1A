@@ -91,7 +91,7 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 	positionBackground.y = 0;
 
 	policeConsigne = TTF_OpenFont("../fonts/chalk_2.ttf", 19);
-	texteConsigne = TTF_RenderText_Blended(policeConsigne,"Trouvez le mot cache.Vous avez un nombre limite d'essai!", couleurMot);
+	texteConsigne = TTF_RenderText_Blended(policeConsigne, "Trouvez le mot cache.Vous avez un nombre limite d'essai!", couleurMot);
 	positionConsigne.x = 90;
 	positionConsigne.y = 480;
 
@@ -145,7 +145,7 @@ int enigme_pendu(SDL_Surface *screen, hero *h)
 						rang++;
 						printf("nbr lettres:%d\n", nombrelettre);
 						printf("nbr tours:%d\n", t);
-						printf("rang : %d\n",rang);
+						printf("rang : %d\n", rang);
 						break;
 					}
 				}

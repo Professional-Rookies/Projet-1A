@@ -1,6 +1,13 @@
 #include "matchsticks.h"
 #include "background.h"
 
+
+/**
+ * @brief Pour initialiser le texte utilisé dans l'enigme
+ * @param i structure text, message[40]: le message souhaité,x le position x,y la position y,size la taille du texte
+ * @return Rien
+ * 
+ */
 void initialiser_text_enigme(text_enigme *i, char message[40], int x, int y, int size)
 {
     TTF_Init();
@@ -16,19 +23,35 @@ void initialiser_text_enigme(text_enigme *i, char message[40], int x, int y, int
     i->position.y = y;
 }
 
+/**
+ * @brief Pour afficher le texte généré
+ * @param i la structure,ecran: la surface ou on va afficher ,message: le message qu'on va afficher
+ * @return Rien
+ * 
+ */
 void afficher_text_enigme(text_enigme i, SDL_Surface *ecran, char message[20])
 {
     i.text = TTF_RenderText_Blended(i.font, message, i.color1);
     SDL_BlitSurface(i.text, NULL, ecran, &i.position);
 }
-
+/**
+ * @brief Pour generer un nombre aleatoire de matchs
+ * @param matchcount : le nombre qu'on va generer
+ * @return le nombre genere
+ * 
+ */
 int rand_matchs(int MatchCount)
 {
     srand(time(0));
     MatchCount = (rand() % 21 + 1);
     return MatchCount;
 }
-
+/**
+ * @brief pour initialiser notre enigme
+ * @param les structs des match + textes
+ * @return rien
+ * 
+ */
 void Init(text_enigme *matchText, text_enigme *PturnText, text_enigme *AIturnText, Matchstick *match)
 {
     int Matchcount = 0;
@@ -40,7 +63,12 @@ void Init(text_enigme *matchText, text_enigme *PturnText, text_enigme *AIturnTex
     match->positionMatchstick.x = SCREEN_WIDTH / (match->MatchCount);
     match->positionMatchstick.y = (SCREEN_HEIGHT / 3) * 2;
 }
-
+/**
+ * @brief
+ * @param
+ * @return
+ * 
+ */
 void affichage_matchs(SDL_Surface *screen, Matchstick *match)
 {
     int i;
@@ -52,7 +80,12 @@ void affichage_matchs(SDL_Surface *screen, Matchstick *match)
     }
     match->positionMatchstick.x = 10;
 }
-
+/**
+ * @brief
+ * @param
+ * @return
+ * 
+ */
 void updateText(SDL_Surface *screen, int turn, text_enigme *PturnText, text_enigme *AIturnText)
 {
     //Update
@@ -68,14 +101,24 @@ void updateText(SDL_Surface *screen, int turn, text_enigme *PturnText, text_enig
         break;
     }
 }
-
+/**
+ * @brief
+ * @param
+ * @return
+ * 
+ */
 void afficherText(SDL_Surface *screen, text_enigme matchtext, text_enigme PturnText, text_enigme AIturnText, int turn)
 {
     SDL_BlitSurface(matchtext.text, NULL, screen, &matchtext.position);
     SDL_BlitSurface(PturnText.text, NULL, screen, &PturnText.position);
     SDL_BlitSurface(AIturnText.text, NULL, screen, &AIturnText.position);
 }
-
+/**
+ * @brief
+ * @param
+ * @return
+ * 
+ */
 void game_end(Matchstick match, int Turn, text_enigme *PturnText, text_enigme *AIturnText, int *AIcontinuer, int *win)
 {
     if (match.MatchCount <= 0)
@@ -95,8 +138,13 @@ void game_end(Matchstick match, int Turn, text_enigme *PturnText, text_enigme *A
         (*AIcontinuer) = 0;
     }
 }
-
-int AI_enigme(SDL_Surface *screen, hero *h)
+/**
+ * @brief
+ * @param
+ * @return
+ * 
+ */
+void AI_enigme(SDL_Surface *screen, hero *h)
 {
     text_enigme matchText;
     text_enigme PturnText;

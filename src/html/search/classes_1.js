@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dialogue_23',['Dialogue',['../structDialogue.html',1,'']]]
+  ['dialogue',['Dialogue',['../structDialogue.html',1,'']]]
 ];

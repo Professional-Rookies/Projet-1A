@@ -30,4 +30,5 @@ clean:
 	rm -rf *.o
 mrproper:
 	rm -rf $(EXEC)
-
+.phony:
+	rm -rf *.o $(EXEC) 

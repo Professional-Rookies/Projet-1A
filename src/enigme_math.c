@@ -1,10 +1,12 @@
 #include "enigme.h"
 
-void enigme_math(SDL_Surface *screen, enigme *E)
+
+void enigme_math(SDL_Surface *screen, enigme *E, hero *h)
 {
  
     SDL_Event event;
     int Econtinue = 1;
+    initenigme(E);
 
 
     SDL_EnableKeyRepeat(0, 0);
@@ -118,22 +120,22 @@ void enigme_math(SDL_Surface *screen, enigme *E)
                     resolutionenigme(E, screen);
                     if (E->resolution == 1)
                     {
+                        h->score_hero.valeur_score += 20;
                         Econtinue = 0;
                     }
                     else
                     { 
+                        h->score_hero.valeur_score -= 20;
                         Econtinue = 0;
                     }
                     break;
                 }
             }
             afficherenigme(E, screen);
-            //SDL_BlitSurface(Final, NULL, screen, &E->positionFinal);
             SDL_Flip(screen);
             if (Econtinue == 0)
                 SDL_Delay(300);
         }
     }
-    
     SDL_EnableKeyRepeat(2, 2);
 }

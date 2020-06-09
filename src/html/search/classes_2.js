@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['enigme_24',['enigme',['../structenigme.html',1,'']]],
-  ['entite_25',['Entite',['../structEntite.html',1,'']]]
+  ['enigme',['enigme',['../structenigme.html',1,'enigme'],['../structEnigme.html',1,'Enigme']]],
+  ['entite',['Entite',['../structEntite.html',1,'']]]
 ];

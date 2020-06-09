@@ -1,14 +1,14 @@
-\hypertarget{structDialogue}{}\doxysection{Dialogue Struct Reference}
+\hypertarget{structDialogue}{}\section{Dialogue Struct Reference}
 \label{structDialogue}\index{Dialogue@{Dialogue}}
 
 
 Collaboration diagram for Dialogue\+:
 % FIG 0
-\doxysubsection*{Public Attributes}
+\subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{structDialogue_a468a4ed40fc86b7b9e8ad36b85af9ed9}\label{structDialogue_a468a4ed40fc86b7b9e8ad36b85af9ed9}} 
-\mbox{\hyperlink{structText}{text}} {\bfseries text}
+\hyperlink{structText}{text} {\bfseries text}
 \item 
 \mbox{\Hypertarget{structDialogue_adeefc1c305f4c968d8f93d609d1300ce}\label{structDialogue_adeefc1c305f4c968d8f93d609d1300ce}} 
 char {\bfseries script} \mbox{[}20\mbox{]}\mbox{[}40\mbox{]}
