@@ -96,7 +96,7 @@ void game_end(Matchstick match, int Turn, text_enigme *PturnText, text_enigme *A
     }
 }
 
-int AI_enigme(SDL_Surface *screen,hero *h)
+int AI_enigme(SDL_Surface *screen, hero *h)
 {
     text_enigme matchText;
     text_enigme PturnText;
@@ -106,14 +106,12 @@ int AI_enigme(SDL_Surface *screen,hero *h)
 
     SDL_Event event;
 
-
     SDL_Surface *bg = NULL;
     SDL_Rect positionbg;
 
     positionbg.x = 0;
     positionbg.y = 0;
     bg = IMG_Load("../img/enigme/bg.jpg");
-
 
     screen = SDL_SetVideoMode(bg->w, bg->h, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
@@ -217,11 +215,10 @@ int AI_enigme(SDL_Surface *screen,hero *h)
     TTF_CloseFont(PturnText.font);
     SDL_FreeSurface(bg);
 
-    if (win==1)
-        h->score_hero.valeur_score+=20;
+    if (win == 1)
+        h->score_hero.valeur_score += 20;
     else
     {
-        h->score_hero.valeur_score-=20;
+        h->score_hero.valeur_score -= 20;
     }
-    
 }

@@ -10,13 +10,14 @@
 
 void main(int argc, char *argv[])
 {
-    SDL_Surface *tab[190];
+    SDL_Surface *tab[341];
+    SDL_Surface *story[799];
     etat etat = MENU;
-    if (argc == 2)
-    {
-        etat = INTRO;
-        load_intro(tab);
-    }
+
+    load_intro(tab);
+    load_story_intro(story);
+
+    //load_intro(tab);
 
     int continuer = 1;
 
@@ -44,6 +45,9 @@ void main(int argc, char *argv[])
         case INTRO:
             play_intro(tab, screen, &etat, &parameter);
             break;
+        case STORY_INTRO:
+            play_story_intro(screen, &etat, &parameter, story);
+            break;
         case MENU:
             menu(screen, &etat, &parameter);
             break;
@@ -69,7 +73,7 @@ void main(int argc, char *argv[])
             cheat(screen, &etat, parameter);
             break;
         case CREDS:
-            play_credits(screen, &etat, parameter);
+            play_credits(screen, &etat, &parameter);
             break;
         case EXIT:
             continuer = 0;

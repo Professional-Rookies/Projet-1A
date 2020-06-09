@@ -69,13 +69,15 @@ typedef struct Portal
 
 //background
 void scrolling(background *b, SDL_Event event);
-void initialiser_background(background *b);
+void initialiser_background(background *b, parameter p);
 void afficher_background(background *b, SDL_Surface *screen);
 void free_background(background *b);
 
 //platforme
 void initialiser_platforme(platforme *p, int x, int y, int interval,int sens);
+void initialiser_plats_horiz(platforme plats[], int n);
 void animer_platformes(platforme plats[], int n);
+void animer_platformes_horiz(platforme plats[], int n);
 void initialiser_plats(platforme plats[], int n);
 void afficher_platformes(platforme plats[], background b, SDL_Surface *ecran, int n);
 void free_platformes(platforme plats[], int n);
@@ -100,6 +102,8 @@ void show_time(timer *t, SDL_Surface *screen);
 void afficher_temps(text *t, timer *timer, SDL_Surface *ecran);
 
 void free_param(parameter *p);
+
+
 
 
 

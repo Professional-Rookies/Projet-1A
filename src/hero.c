@@ -1,7 +1,7 @@
 #include "hero.h"
-#include "background.h"
 #include "collision.h"
 
+//! initalise la position de l'hero, sa vie et son score et charge les spritesheets   
 void initialiser_hero(hero *h, char name[20])
 {
 	if (TTF_Init() == -1)
@@ -59,7 +59,7 @@ void initialiser_hero(hero *h, char name[20])
 	h->score_hero.score_font = TTF_OpenFont("../fonts/8bit.ttf", 15);
 	snprintf(score_str, 10, "%d", h->score_hero.valeur_score);
 	h->score_hero.texte_score = TTF_RenderText_Blended(h->score_hero.score_font, score_str, h->score_hero.couleurNoire);
-	h->score_hero.position_texte.x = SCREEN_WIDTH - h->vie_hero.heart->w;
+	h->score_hero.position_texte.x = SCREEN_WIDTH_GAME - h->vie_hero.heart->w;
 	h->score_hero.position_texte.y = 10;
 }
 
@@ -101,6 +101,7 @@ void afficher_hero(hero h, SDL_Surface *screen, background b)
 		SDL_BlitSurface(h.score_hero.texte_score, NULL, screen, &h.score_hero.position_texte);
 	}
 }
+//! Anime l'hero en utilisant le spritesheet en fonction de son STATE
 void animer_hero(hero *h, state movement, character c)
 {
 	if (h->sprite.image != NULL)
@@ -252,20 +253,20 @@ void deplacer_hero(hero *h, background *b, int *Jcontinuer, character c, platfor
 
 		if (timeAccumulatedMs >= timeStepMs)
 		{
-			if (b->posCamera.x < b->image->w - SCREEN_WIDTH)
+			if (b->posCamera.x < b->image->w - SCREEN_WIDTH_GAME)
 			{
-				b->posCamera.x = (h->position.x + 5 * h->sprite.frame.w) - SCREEN_WIDTH;
+				b->posCamera.x = (h->position.x + 5 * h->sprite.frame.w) - SCREEN_WIDTH_GAME;
 			}
-			if (b->posCamera.y < b->image->h - SCREEN_HEIGHT)
+			if (b->posCamera.y < b->image->h - SCREEN_HEIGHT_GAME)
 			{
-				b->posCamera.y = (h->position.y + 4 * h->sprite.frame.h) - SCREEN_HEIGHT;
+				b->posCamera.y = (h->position.y + 4 * h->sprite.frame.h) - SCREEN_HEIGHT_GAME;
 			}
 			if (b->posCamera.x < 0)
 				b->posCamera.x = 1;
 			if (b->posCamera.y < 0)
 				b->posCamera.y = 1;
-			if (b->posCamera.y >= b->image->h - SCREEN_HEIGHT)
-				b->posCamera.y = b->image->h - SCREEN_HEIGHT - 1;
+			if (b->posCamera.y >= b->image->h - SCREEN_HEIGHT_GAME)
+				b->posCamera.y = b->image->h - SCREEN_HEIGHT_GAME - 1;
 
 			Uint8 *keystates = SDL_GetKeyState(NULL);
 			if (h->position.y > h->current_ground_position - JUMP_HEIGHT && tanguiza == 0 && !h->collision_UP)
@@ -470,9 +471,9 @@ void initialiser_dialogue(dialogue *d, SDL_Surface *ecran, character c)
 	SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 
 	d->pos_dialogue_box.x = 0;
-	d->pos_dialogue_box.y = SCREEN_HEIGHT - d->hero_dialogue->h;
+	d->pos_dialogue_box.y = SCREEN_HEIGHT_GAME - d->hero_dialogue->h;
 	d->pos_hero_dialogue.x = 100;
-	d->pos_hero_dialogue.y = SCREEN_HEIGHT - d->hero_dialogue->h;
+	d->pos_hero_dialogue.y = SCREEN_HEIGHT_GAME - d->hero_dialogue->h;
 }
 
 void linear_dialogue(dialogue *d, SDL_Surface *ecran)
@@ -483,7 +484,7 @@ void linear_dialogue(dialogue *d, SDL_Surface *ecran)
 	if (d->script[d->line - 1][0] == 'x' || d->line == 0)
 	{
 		d->hero_dialogue = IMG_Load("../img/hero/safwen_choice_active.png");
-		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, 180, 32, 0, 0, 0, 0);
+		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH_GAME, 180, 32, 0, 0, 0, 0);
 		SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 		d->talking = 1;
 	}
@@ -567,7 +568,7 @@ void playing_dialogue(dialogue *d, hero h, SDL_Surface *ecran, timer timer)
 		printf("HERE\n");
 		d->text.text = TTF_RenderText_Blended(d->text.font, d->script[15], d->text.color);
 		d->hero_dialogue = IMG_Load("../img/hero/safwen_choice_active.png");
-		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, 180, 32, 0, 0, 0, 0);
+		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH_GAME, 180, 32, 0, 0, 0, 0);
 		SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 	}
 	/*if (h.position.x >= 1690 && h.position.x <= 1990 && h.position.y >= 1560)
@@ -575,7 +576,7 @@ void playing_dialogue(dialogue *d, hero h, SDL_Surface *ecran, timer timer)
 
 		d->text.text = TTF_RenderText_Blended(d->text.font, d->script[11], d->text.color);
 		d->hero_dialogue = IMG_Load("../img/hero/safwen_choice_active.png");
-		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, 180, 32, 0, 0, 0, 0);
+		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH_GAME, 180, 32, 0, 0, 0, 0);
 		SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 	}*/
 }
@@ -598,9 +599,9 @@ void initialiser_minimap(minimap *m, background b, hero h)
 {
 	m->image = IMG_Load("../img/background/test2.jpg");
 	m->hero = IMG_Load("../img/background/rouge.png");
-	m->pos_image.x = (SCREEN_WIDTH / 2) - (m->image->w / 2);
+	m->pos_image.x = (SCREEN_WIDTH_GAME / 2) - (m->image->w / 2);
 	m->pos_image.y = 0;
-	m->pos_hero.x = (SCREEN_WIDTH / 2) - (m->image->w / 2) + h.position.x / 52;
+	m->pos_hero.x = (SCREEN_WIDTH_GAME / 2) - (m->image->w / 2) + h.position.x / 52;
 	m->pos_hero.y = (h.position.y / 52) - 2;
 }
 
@@ -608,12 +609,12 @@ void afficher_minimap(minimap *m, hero h, SDL_Surface *screen, int mini)
 {
 	if (mini == 1)
 	{
-		m->pos_hero.x = (SCREEN_WIDTH / 2) - (m->image->w / 2) + h.position.x / 52;
+		m->pos_hero.x = (SCREEN_WIDTH_GAME / 2) - (m->image->w / 2) + h.position.x / 52;
 		m->pos_hero.y = (h.position.y / 52) - 2;
 	}
 	else if (mini == -1)
 	{
-		m->pos_hero.x = (SCREEN_WIDTH / 2) - (m->image->w / 2) + h.position.x / 13.5;
+		m->pos_hero.x = (SCREEN_WIDTH_GAME / 2) - (m->image->w / 2) + h.position.x / 13.5;
 		m->pos_hero.y = (h.position.y / 13.5);
 	}
 
@@ -709,12 +710,57 @@ void afficher_portal(portal p, background b, hero h, SDL_Surface *screen)
 void free_portal(portal *p)
 {
 	int i;
-	for (i=0;i<p->frame_enter;i++)
+	for (i = 0; i < p->frame_enter; i++)
 	{
 		SDL_FreeSurface(p->enter[i]);
 	}
-	for (i=0;i<p->frame_still;i++)
+	for (i = 0; i < p->frame_still; i++)
 	{
 		SDL_FreeSurface(p->still[i]);
+	}
+}
+
+void camera_pan(background *b, hero h, int x, int y, int *panning, int duree)
+{
+	static int first = 0;
+	static timer t;
+	static int once=0;
+
+		printf("TIMER FCT: %d\n", t.time.secondes);
+
+	if (first == 0)
+	{
+		init_timer(&t);
+		first = 1;
+	}
+
+	if (*panning)
+	{
+		get_time(&t);
+		if (abs(b->posCamera.x - x) < 10 && abs(b->posCamera.y - y) < 10)
+		{
+			if (!once)
+			{
+				start_timer(&t);
+				once=1;
+			}
+		}
+		else
+		{
+			if (b->posCamera.x < x)
+				b->posCamera.x += 3;
+			if (b->posCamera.y < y)
+				b->posCamera.y += 4;
+		}
+
+		if (t.time.secondes == duree)
+		{
+			*panning = 0;
+			first = 0;
+			once=0;
+			stop_timer(&t);
+			b->posCamera.x = (h.position.x + 5 * h.sprite.frame.w) - SCREEN_WIDTH_GAME;
+			b->posCamera.y = (h.position.y + 4 * h.sprite.frame.h) - SCREEN_HEIGHT_GAME;
+		}
 	}
 }

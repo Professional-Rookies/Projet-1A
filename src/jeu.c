@@ -1,16 +1,7 @@
-#include "background.h"
-#include "entite_secondaire.h"
-#include "hero.h"
-#include "collision.h"
-#include "defs.h"
-#include "enigme.h"
-#include "structs.h"
-#include "menu.h"
-#include "matchsticks.h"
-#include "pendu.h"
-#include "SDL/SDL_rotozoom.h"
+#include "jeu.h"
 
 #define NB_PLATFORMES 5
+#define NB_PLATFORMES_HORIZ 2
 #define NB_COINS 5
 #define NB_HEARTS 1
 #define NB_INSTRUCTIONS 6
@@ -24,29 +15,30 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	//enigme enigme_m;
 
-
 	int tempsActuel = 0;
 	int tempsPrecedent = 0;
 	int mini = 1;
 	int idk = 1;
 
-	
-
+	int tempsActuel2 = 0;
+	int tempsPrecedent2 = 0;
 
 	SDL_Rect pos_rel;
 
 	entite ennemies[NB_ENNEMIES];
 	platforme platformes[NB_PLATFORMES];
+	platforme platformes_horiz[NB_PLATFORMES_HORIZ];
 	text game_over_txt;
 	dialogue dialogue = dial;
 	text instructions[NB_INSTRUCTIONS];
 	power_up coins[NB_COINS];
 	heart hearts[NB_HEARTS];
-	timer timer;
+	timer timer, pan_timer;
 	minimap minimap;
 	portal portal;
 
 	int plat_coll;
+	int plat_coll_horiz;
 
 	SDL_Surface *black = NULL;
 
@@ -56,41 +48,66 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	position_black.x = 0;
 	position_black.y = 0;
 
-	init_timer(&timer);
 	initialiser_dialogue(&dialogue, ecran, c);
-	initialiser_background(&background);
+	initialiser_background(&background, *p);
 	initialiser_ennemies(ennemies, NB_ENNEMIES);
 	initialiser_minimap(&minimap, background, *safwen);
 
 	initialiser_portal(&portal);
 
 	initialiser_plats(platformes, NB_PLATFORMES);
+	initialiser_plats_horiz(platformes_horiz, NB_PLATFORMES_HORIZ);
 
 	initialiser_instructions(instructions, NB_INSTRUCTIONS);
 	initialiser_coins(coins, NB_COINS);
 	initialiser_hearts(hearts, NB_HEARTS);
 
-	initialiser_text(&game_over_txt, "", SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2, 90);
+	initialiser_text(&game_over_txt, "", SCREEN_WIDTH_GAME / 2 - 250, SCREEN_HEIGHT_GAME / 2, 90);
 
 	p->music = Mix_LoadMUS("../sfx/alter-ego.mp3");
+
+	ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
+
 	if (!p->mute)
 		Mix_PlayMusic(p->music, -1);
 	else
 		Mix_PauseMusic();
 	if (p->fullscreen)
+	{
 		SDL_WM_ToggleFullScreen(ecran);
+	}
+
 	int passage_boucle = 0;
 	int once = 0;
 	int once_enigme = 0;
-	int once_pendu=0;
+	int once_pendu = 0;
 
-	start_timer(&timer);
 	int i;
 	int saving = 0;
+	int pan = 0;
 	SDL_Surface *save_screen = NULL;
 	SDL_Rect pos_save_screen;
 	pos_save_screen.x = 280;
 	pos_save_screen.y = 280;
+
+	SDL_Surface *enigme_frames[10];
+
+	enigme_frames[0] = IMG_Load("../img/enigme/icon/1.png");
+	enigme_frames[1] = IMG_Load("../img/enigme/icon/2.png");
+	enigme_frames[2] = IMG_Load("../img/enigme/icon/3.png");
+	enigme_frames[3] = IMG_Load("../img/enigme/icon/4.png");
+	enigme_frames[4] = IMG_Load("../img/enigme/icon/5.png");
+	enigme_frames[5] = IMG_Load("../img/enigme/icon/6.png");
+	enigme_frames[6] = IMG_Load("../img/enigme/icon/7.png");
+	enigme_frames[7] = IMG_Load("../img/enigme/icon/8.png");
+	enigme_frames[8] = IMG_Load("../img/enigme/icon/9.png");
+	enigme_frames[9] = IMG_Load("../img/enigme/icon/10.png");
+
+	int now = 0;
+	int then = 0;
+	SDL_Rect pos_enigme;
+	pos_enigme.x = 500;
+	pos_enigme.y = 1570;
 
 	text save_text;
 	initialiser_text(&save_text, "", 315, 320, 10);
@@ -98,9 +115,22 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	save_text.color.g = 0;
 	save_text.color.b = 0;
 
+	int en_frame = 0;
+	int once_p=0;
+
+	SDL_Rect posss;
+
 	while (Jcontinuer)
 	{
-		deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, NB_PLATFORMES, &mini);
+		if (safwen->position.x >= 1850 && safwen->collision_DOWN && !once_p)
+		{
+			pan=1;
+			once_p=1;
+		}
+		if (pan)
+			camera_pan(&background, *safwen, 1900, 1300, &pan, 5);
+		if (!pan)
+			deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, NB_PLATFORMES, &mini);
 
 		CollisionParfaite(safwen, background);
 
@@ -110,13 +140,14 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			once_enigme = 1;
 		}*/
 
-		if (safwen->position.x >= 900 && once_pendu != 1)
+		/*if (safwen->position.x >= 900 && once_pendu != 1)
 		{
 			enigme_pendu(ecran,safwen);
 			once_pendu = 1;
-			ecran=SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
-		}
-		
+			ecran=SDL_SetVideoMode(SCREEN_WIDTH_GAME,SCREEN_HEIGHT_GAME,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
+		}*/
+	
+
 		plat_coll = collision_platforme(safwen, platformes, NB_PLATFORMES);
 
 		for (i = 0; i < NB_PLATFORMES; i++)
@@ -131,6 +162,21 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 				}
 			}
 		}
+
+		/*plat_coll_horiz = collision_platforme(safwen, platformes_horiz, NB_PLATFORMES_HORIZ);
+
+		for (i = 0; i < NB_PLATFORMES_HORIZ; i++)
+		{
+			tempsActuel2 = SDL_GetTicks();
+			if (safwen->collision_DOWN_PLAT && safwen->state == IDLE)
+			{
+				if (tempsActuel2 - tempsPrecedent2 > 10)
+				{
+					safwen->position.y += 1 * platformes_horiz[plat_coll_horiz].sens;
+					tempsPrecedent2 = tempsActuel2;
+				}
+			}
+		}*/
 
 		//portal
 		if (safwen->position.x >= 5100 && safwen->position.x <= 5340 && safwen->position.y >= 1070 && safwen->position.y <= 1120)
@@ -167,15 +213,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			}
 		}
 
-		if (safwen->state == IDLE)
-		{
-			resume_timer(&timer);
-		}
-		else
-		{
-			pause_timer(&timer);
-			start_timer(&timer);
-		}
 
 		for (i = 0; i < NB_ENNEMIES; i++)
 		{
@@ -195,14 +232,32 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		animer_coins(coins, NB_COINS);
 		animer_hearts(hearts, NB_HEARTS);
 		animer_platformes(platformes, NB_PLATFORMES);
+		//animer_platformes_horiz(platformes_horiz, NB_PLATFORMES_HORIZ);
 		animer_portal(&portal);
 
 		afficher_background(&background, ecran);
 		afficher_platformes(platformes, background, ecran, NB_PLATFORMES);
+		//afficher_platformes(platformes_horiz, background, ecran, NB_PLATFORMES_HORIZ);
 
 		afficher_coins(coins, NB_COINS, background, ecran);
 		afficher_hearts(hearts, NB_HEARTS, background, ecran);
 		afficher_ennemies(ennemies, NB_ENNEMIES, ecran, background);
+
+		now = SDL_GetTicks();
+		if (now - then > 40)
+		{
+
+			en_frame++;
+
+			then = now;
+		}
+
+		if (en_frame == 8)
+			en_frame = 0;
+
+		posss.x = pos_enigme.x - background.posCamera.x;
+		posss.y = pos_enigme.y - background.posCamera.y;
+		//SDL_BlitSurface(enigme_frames[en_frame], NULL, ecran, &posss);
 
 		afficher_instructions(instructions, NB_INSTRUCTIONS, background, ecran);
 
@@ -242,10 +297,10 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			minimap.hero = IMG_Load("../img/background/rouge.png");
 			idk = 1;
 
-			minimap.pos_image.x = (SCREEN_WIDTH / 2) - (minimap.image->w / 2);
+			minimap.pos_image.x = (SCREEN_WIDTH_GAME / 2) - (minimap.image->w / 2);
 			minimap.pos_image.y = 0;
 
-			minimap.pos_hero.x = (SCREEN_WIDTH / 2) - (minimap.image->w / 2) + safwen->position.x / 12.5;
+			minimap.pos_hero.x = (SCREEN_WIDTH_GAME / 2) - (minimap.image->w / 2) + safwen->position.x / 12.5;
 		}
 		if (mini == -1 && idk != 2)
 		{
@@ -268,6 +323,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	free_instructions(instructions, NB_INSTRUCTIONS);
 	free_dialogue(&dialogue);
 	free_platformes(platformes, NB_PLATFORMES);
+	free_platformes(platformes_horiz, NB_PLATFORMES_HORIZ);
 	free_minimap(&minimap);
 	free_portal(&portal);
 }

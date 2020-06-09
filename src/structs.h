@@ -20,7 +20,8 @@ typedef enum etat
     GAME_LOAD,
     INTRO,
     CHEAT,
-    CREDS
+    CREDS,
+    STORY_INTRO
 } etat;
 
 typedef enum Character

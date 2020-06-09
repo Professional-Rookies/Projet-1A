@@ -1,4 +1,3 @@
-
 #include "multiplayer.h"
 
 void initialiser_hero2(hero *h, char name[20])

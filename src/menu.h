@@ -11,6 +11,8 @@
 #include "background.h"
 #include "entite_secondaire.h"
 
+
+
 typedef enum Choice_button
 {
 	PLAY,
@@ -45,6 +47,9 @@ void load_intro(SDL_Surface *tab[]);
 void play_intro(SDL_Surface *tab[], SDL_Surface *ecran, etat *etat,parameter *p);
 void cheat(SDL_Surface *ecran, etat *etat,parameter p);
 
+void load_story_intro(SDL_Surface *tab[]);
+void play_story_intro(SDL_Surface *screen, etat *etat, parameter *p,SDL_Surface *tab[]);
 
-void play_credits(SDL_Surface *screen, etat *etat, parameter p);
+
+void play_credits(SDL_Surface *screen, etat *etat, parameter *p);
 #endif

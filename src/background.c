@@ -1,6 +1,6 @@
 #include "background.h"
 
-void initialiser_background(background *b)
+void initialiser_background(background *b, parameter p)
 {
 	b->image = IMG_Load("../img/background/background_new.jpg");
 	b->background_mask = IMG_Load("../img/background/background_new_masque.jpg");
@@ -8,18 +8,18 @@ void initialiser_background(background *b)
 
 	b->posCamera.x = 400;
 	b->posCamera.y = 900;
-	b->posCamera.w = SCREEN_WIDTH;
-	b->posCamera.h = SCREEN_HEIGHT;
+	b->posCamera.w = SCREEN_WIDTH_GAME;
+	b->posCamera.h = SCREEN_HEIGHT_GAME;
 
 	b->position_background_mask.x = 400;
 	b->position_background_mask.y = 900;
-	b->position_background_mask.w = SCREEN_WIDTH;
-	b->position_background_mask.h = SCREEN_HEIGHT;
+	b->position_background_mask.w = SCREEN_WIDTH_GAME;
+	b->position_background_mask.h = SCREEN_HEIGHT_GAME;
 
 	b->pos_foreground.x = 400;
 	b->pos_foreground.y = 900;
-	b->pos_foreground.w = SCREEN_WIDTH;
-	b->pos_foreground.h = SCREEN_HEIGHT;
+	b->pos_foreground.w = SCREEN_WIDTH_GAME;
+	b->pos_foreground.h = SCREEN_HEIGHT_GAME;
 }
 
 void initialiser_platforme(platforme *p, int x, int y, int interval, int sens)
@@ -42,6 +42,12 @@ void initialiser_plats(platforme plats[], int n)
 	initialiser_platforme(&plats[2], 450, 850, 80, 1);
 	initialiser_platforme(&plats[3], 700, 750, 200, 1);
 	initialiser_platforme(&plats[4], 950, 650, 150, 1);
+}
+
+void initialiser_plats_horiz(platforme plats[], int n)
+{
+	initialiser_platforme(&plats[0], 700, 1570, 500, 1);
+	initialiser_platforme(&plats[1], 400, 1570, 500, 1);
 }
 
 void initialiser_text(text *i, char message[40], int x, int y, int size)
@@ -160,6 +166,30 @@ void animer_platformes(platforme plats[], int n)
 	}
 }
 
+void animer_platformes_horiz(platforme plats[], int n)
+{
+	static int i;
+	static int tempsActuel = 0;
+	static int tempsPrecedent = 0;
+
+	tempsActuel = SDL_GetTicks();
+	if (tempsActuel - tempsPrecedent > 10)
+	{
+		for (i = 0; i < n; i++)
+		{
+			plats[i].position.y += 1 * plats[i].sens;
+			tempsPrecedent = tempsActuel;
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		if (plats[i].position.y >= plats[i].pos_init.y + plats[i].interval)
+			plats[i].sens = -1;
+		if (plats[i].position.y <= plats[i].pos_init.y)
+			plats[i].sens = 1;
+	}
+}
+
 void init_timer(timer *t)
 {
 	t->startTicks = 0;
@@ -230,7 +260,7 @@ void show_time(timer *t, SDL_Surface *screen)
 
 	if (!once)
 	{
-		initialiser_text(&time, "", (SCREEN_WIDTH / 2) - 85, 0, 30);
+		initialiser_text(&time, "", (SCREEN_WIDTH_GAME / 2) - 85, 0, 30);
 		once = 1;
 	}
 
@@ -279,4 +309,3 @@ void free_instructions(text instructions[], int n)
 		TTF_CloseFont(instructions[i].font);
 	}
 }
-

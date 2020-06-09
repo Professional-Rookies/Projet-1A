@@ -1,10 +1,80 @@
 #include "menu.h"
-#include "background.h"
+
 
 #define SIZE 100
 #define TIME 30
+void load_story_intro(SDL_Surface *tab[])
+{
+	int i;
+	char image[50];
 
-void play_credits(SDL_Surface *screen, etat *etat, parameter p)
+	for (i = 0; i < 799; i++)
+	{
+		sprintf(image, "../cinematics/story_intro/  (%d).jpg", i + 1);
+		tab[i] = IMG_Load(image);
+	}
+}
+void play_story_intro(SDL_Surface *screen, etat *etat, parameter *p, SDL_Surface *tab[])
+{
+	static int now = 0;
+	static int then = 0;
+	static int frame = 0;
+	static int once = 0;
+
+	static text skip;
+
+	static SDL_Event event;
+
+	static SDL_Rect pos;
+
+	if (!once)
+	{
+		p->music = Mix_LoadMUS("../sfx/story_intro.wav");
+		Mix_PlayMusic(p->music, -1);
+		once = 1;
+		pos.x = 40;
+		pos.y = 30;
+	}
+
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_SPACE:
+				*etat = GAME;
+				Mix_PlayChannel(-1, p->click, 0);
+				break;
+			}
+			break;
+		}
+	}
+
+	SDL_BlitSurface(tab[frame], NULL, screen, &pos);
+	SDL_BlitSurface(skip.text, NULL, screen, &skip.position);
+	SDL_Flip(screen);
+
+	now = SDL_GetTicks();
+	if (now - then > 30)
+	{
+		frame++;
+		then = now;
+	}
+
+	if (frame == 200)
+	{
+		initialiser_text(&skip, "Press SPACEBAR to skip", 470, 550, 13);
+		skip.font = TTF_OpenFont("../fonts/8bit.ttf", 13);
+		skip.text=TTF_RenderText_Blended(skip.font,"Press SPACEBAR to skip",skip.color);
+	}
+
+	if (frame >= 799)
+		(*etat) = GAME;
+}
+
+void play_credits(SDL_Surface *screen, etat *etat, parameter *p)
 {
 	SDL_Surface *background = IMG_Load("../img/black.jpg");
 
@@ -23,11 +93,11 @@ void play_credits(SDL_Surface *screen, etat *etat, parameter p)
 
 	char credits_script[nb_lines][40];
 
-	if (!p.mute)
+	if (!p->mute)
 		Mix_ResumeMusic();
 	else
 		Mix_PauseMusic();
-	if (p.fullscreen)
+	if (p->fullscreen)
 		screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
 	FILE *f;
@@ -48,9 +118,9 @@ void play_credits(SDL_Surface *screen, etat *etat, parameter p)
 	}
 
 	//centering
-	for (i = 0; i < nb_lines; i++)
+	for (i = 0; i < nb_lines - 3; i++)
 	{
-		cred[i].position.x = (SCREEN_WIDTH / 2) - (cred[i].text->w) / 2;
+		cred[i].position.x = (800 / 2) - (cred[i].text->w) / 2;
 	}
 
 	while (continuer)
@@ -221,107 +291,107 @@ void cheat(SDL_Surface *ecran, etat *etat, parameter p)
 					break;
 
 				case SDLK_a:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "a");
 					break;
 				case SDLK_b:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "b");
 					break;
 				case SDLK_c:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "c");
 					break;
 				case SDLK_d:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "d");
 					break;
 				case SDLK_e:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "e");
 					break;
 				case SDLK_f:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "f");
 					break;
 				case SDLK_g:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "g");
 					break;
 				case SDLK_h:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "h");
 					break;
 				case SDLK_i:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "i");
 					break;
 				case SDLK_j:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "j");
 					break;
 				case SDLK_k:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "k");
 					break;
 				case SDLK_l:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "l");
 					break;
 				case SDLK_m:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "m");
 					break;
 				case SDLK_n:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "n");
 					break;
 				case SDLK_o:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "o");
 					break;
 				case SDLK_p:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "p");
 					break;
 				case SDLK_q:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "q");
 					break;
 				case SDLK_r:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "r");
 					break;
 				case SDLK_s:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "s");
 					break;
 				case SDLK_t:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "t");
 					break;
 				case SDLK_u:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "u");
 					break;
 				case SDLK_v:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "v");
 					break;
 				case SDLK_w:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "w");
 					break;
 				case SDLK_x:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "x");
 					break;
 				case SDLK_y:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "y");
 					break;
 				case SDLK_z:
-					if (strlen(entry_char) < 7)
+					if (strlen(entry_char) < 10)
 						strcat(entry_char, "z");
 					break;
 				}
@@ -349,7 +419,7 @@ void load_intro(SDL_Surface *tab[])
 {
 	int i;
 	char image[50];
-	for (i = 0; i < 101; i++)
+	for (i = 0; i < 341; i++)
 	{
 		sprintf(image, "../cinematics/intro/  (%d).jpg", i + 1);
 		tab[i] = IMG_Load(image);
@@ -362,27 +432,42 @@ void play_intro(SDL_Surface *tab[], SDL_Surface *ecran, etat *etat, parameter *p
 	static int tempsPrecedent = 0;
 	static int once = 0;
 
-	if (once = 0)
-	{
-		//p->music = ;
-		//once = 1;
-	}
+	SDL_Event event;
+
 	SDL_Rect pos;
 	pos.x = 0;
 	pos.y = 0;
+
+
+	while (SDL_PollEvent(&event))
+	{
+		switch(event.type)
+		{
+			case SDL_KEYDOWN:
+				switch(event.key.keysym.sym)
+				{
+					case SDLK_ESCAPE:
+						*etat=STORY_INTRO;
+						break;
+				}
+				break;
+		}
+	}
 	SDL_BlitSurface(tab[i], NULL, ecran, &pos);
 	SDL_Flip(ecran);
 	tempsActuel = SDL_GetTicks();
-	if (tempsActuel - tempsPrecedent > 20)
+	if (tempsActuel - tempsPrecedent > 30)
 	{
 		i++;
 		tempsPrecedent = tempsActuel;
 	}
 
-	if (i == 101)
-		*etat = MENU;
+	if (i >= 341)
+		*etat = STORY_INTRO;
 	else
+	{
 		*etat = INTRO;
+	}
 }
 void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 {
@@ -511,6 +596,8 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 					else if (rang == 1)
 					{
 						*etat = MENU;
+						p->music = Mix_LoadMUS("../sfx/game_menu_music.wav");
+						Mix_PlayMusic(p->music, -1);
 						continuer = 0;
 					}
 					break;
@@ -529,6 +616,7 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 	//SDL_Quit();
 }
 
+//! utilise les fonctions load_game afin de charger le porgres
 void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, parameter *p, character *c, dialogue *d)
 {
 	SDL_Event event;
@@ -579,10 +667,8 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 				{
 				case SDLK_DOWN:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == -1 || rang == 4)
+					if (rang == -1)
 					{
-						if (rang == 4)
-							rang = 0;
 						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
 						cont = IMG_Load("../img/menu/buttons/continue.png");
 						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
@@ -613,43 +699,18 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 						new_game = IMG_Load("../img/menu/buttons/new_game.png");
 						rang++;
 					}
-					else
+					else if (rang == 3)
 					{
 						back = IMG_Load("../img/menu/buttons/back.png");
 						cont = IMG_Load("../img/menu/buttons/continue.png");
 						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-						new_game = IMG_Load("../img/menu/buttons/new_game.png");
-						rang = -1;
+						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
+						rang = 0;
 					}
-
 					break;
 				case SDLK_UP:
 					Mix_PlayChannel(-1, p->click, 0);
-					if (rang == 1)
-					{
-						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
-						cont = IMG_Load("../img/menu/buttons/continue.png");
-						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-						back = IMG_Load("../img/menu/buttons/back.png");
-						rang = 0;
-					}
-					else if (rang == 2)
-					{
-						cont = IMG_Load("../img/menu/buttons/continue_active.png");
-						new_game = IMG_Load("../img/menu/buttons/new_game.png");
-						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
-						back = IMG_Load("../img/menu/buttons/back.png");
-						rang = 1;
-					}
-					else if (rang == 3)
-					{
-						multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
-						cont = IMG_Load("../img/menu/buttons/continue.png");
-						new_game = IMG_Load("../img/menu/buttons/new_game.png");
-						back = IMG_Load("../img/menu/buttons/back.png");
-						rang = 2;
-					}
-					else if (rang == -1)
+					if (rang == 0)
 					{
 						back = IMG_Load("../img/menu/buttons/back_active.png");
 						cont = IMG_Load("../img/menu/buttons/continue.png");
@@ -657,13 +718,29 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 						new_game = IMG_Load("../img/menu/buttons/new_game.png");
 						rang = 3;
 					}
-					else
+					else if (rang == 1)
 					{
-						back = IMG_Load("../img/menu/buttons/back.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game_active.png");
 						cont = IMG_Load("../img/menu/buttons/continue.png");
 						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang--;
+					}
+					else if (rang == 2)
+					{
+						cont = IMG_Load("../img/menu/buttons/continue_active.png");
 						new_game = IMG_Load("../img/menu/buttons/new_game.png");
-						rang = -1;
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang--;
+					}
+					else if (rang == 3)
+					{
+						multiplayer = IMG_Load("../img/menu/buttons/multiplayer_active.png");
+						cont = IMG_Load("../img/menu/buttons/continue.png");
+						new_game = IMG_Load("../img/menu/buttons/new_game.png");
+						back = IMG_Load("../img/menu/buttons/back.png");
+						rang--;
 					}
 					break;
 				case SDLK_RETURN:
@@ -764,6 +841,7 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	}
 }
 
+//! sauvegarde la position de l'hero, sa vie et son score dans un fichier texte et sera appelée dans la boucle du jeu
 void save_game(hero h, background b, character c, dialogue d)
 {
 	FILE *f = NULL;
@@ -784,6 +862,7 @@ void save_game(hero h, background b, character c, dialogue d)
 	}
 	fclose(f);
 }
+//! utilise le fichier txt de sauvegarde pour charger la position de l'hero, sa vie et son score et sera appelée dans l'ecran de chargement de l'hero
 void load_game(hero *h, background *b, character *c, dialogue *d)
 {
 	int i;
@@ -796,7 +875,7 @@ void load_game(hero *h, background *b, character *c, dialogue *d)
 	}
 	initialiser_hero(h, "safwen");
 
-	initialiser_background(b);
+	//initialiser_background(b,p);
 
 	fscanf(f, "%d %d %hd %hd %d %d", &h->vie_hero.nb_vie, &h->score_hero.valeur_score, &h->position.x, &h->position.y, &d->line, &i);
 	if (i == 0)
@@ -812,6 +891,7 @@ void load_game(hero *h, background *b, character *c, dialogue *d)
 	fclose(f);
 }
 
+//! permet de choisir le spritesheet a charger au depend du hero choisi (character c)
 void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, character *c)
 {
 	SDL_Event event;
@@ -943,7 +1023,9 @@ void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, ch
 					case SAF:
 						initialiser_hero(h, "safwen");
 						*c = SAFWEN;
-						*etat = GAME;
+						*etat = INTRO;
+						p->music = Mix_LoadMUS("../sfx/ds.mp3");
+						Mix_PlayMusic(p->music, -1);
 						continuer = 0;
 						break;
 					case OM:
@@ -951,7 +1033,7 @@ void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, ch
 						{
 							initialiser_hero(h, "omar");
 							*c = OMAR;
-							*etat = GAME;
+							*etat = INTRO;
 							continuer = 0;
 						}
 						break;
@@ -970,14 +1052,14 @@ void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, ch
 					{
 						initialiser_hero(h, "safwen");
 						*c = SAFWEN;
-						*etat = GAME;
+						*etat = INTRO;
 						continuer = 0;
 					}
 					if (event.motion.x < position_omar.x + omar->w && event.motion.x > position_omar.x && event.motion.y < position_omar.y + omar->h && event.motion.y > position_omar.y)
 					{
 						initialiser_hero(h, "omar");
 						*c = OMAR;
-						*etat = GAME;
+						*etat = INTRO;
 						continuer = 0;
 					}
 					if (event.motion.x < pos_back.x + back->w && event.motion.x > pos_back.x && event.motion.y < pos_back.y + back->h && event.motion.y > pos_back.y)
@@ -1924,97 +2006,3 @@ void menu(SDL_Surface *screen, etat *etat, parameter *p)
 	TTF_Quit();
 	SDL_FreeSurface(loop);
 }
-
-//LOADING FROM BINARY
-/*void save_game(hero h, background b, character c)
-{
-	FILE *f_hero = NULL, *f_background = NULL, *f_character = NULL;
-
-	f_hero = fopen("hero.bin", "wb");
-	if (f_hero == NULL)
-	{
-		fprintf(stderr, "Failed to save hero\n");
-		exit(EXIT_FAILURE);
-	}
-	fwrite(&h, sizeof(hero), 1, f_hero);
-	if (ferror(f_hero))
-	{
-		fprintf(stderr, "no hero saved\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_hero);
-
-	f_background = fopen("background.bin", "wb");
-	if (f_background==NULL)
-	{
-		fprintf(stderr, "Failed to save background\n");
-		exit(EXIT_FAILURE);
-	}
-	fwrite(&b, sizeof(background), 1, f_background);
-	if (ferror(f_background))
-	{
-		fprintf(stderr, "no hero saved\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_background);
-
-	f_character= fopen("character.bin", "wb");
-	if(f_character==NULL)
-	{
-		fprintf(stderr, "Failed to save character\n");
-		exit(EXIT_FAILURE);
-	}
-	fwrite(&h, sizeof(character), 1, f_character);
-	if (ferror(f_character))
-	{
-		fprintf(stderr, "no hero saved\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_character);
-}
-void load_game(hero *h, background *b, character *c)
-{
-	FILE *f_hero = NULL, *f_background = NULL, *f_character = NULL;
-
-	f_hero = fopen("hero.bin", "rb");
-	if (f_hero==NULL)
-	{
-		fprintf(stderr, "Failed to load hero\n");
-		exit(EXIT_FAILURE);
-	}
-	fread(h, sizeof(hero), 1, f_hero);
-	if (ferror(f_hero))
-	{
-		fprintf(stderr, "No hero read\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_hero);
-
-	f_background = fopen("background.bin", "rb");
-	if(f_background==NULL)
-	{
-		fprintf(stderr, "Failed to load background\n");
-		exit(EXIT_FAILURE);
-	}
-	fread(b, sizeof(background), 1, f_hero);
-	if (ferror(f_background))
-	{
-		fprintf(stderr, "No back read\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_background);
-
-	f_character = fopen("character.bin", "rb");
-	if(f_character==NULL)
-	{
-		fprintf(stderr, "Failed to load character\n");
-		exit(EXIT_FAILURE);
-	}
-	fread(c, sizeof(character), 1, f_hero);
-	if (ferror(f_character))
-	{
-		fprintf(stderr, "No character read\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(f_character);
-}*/
