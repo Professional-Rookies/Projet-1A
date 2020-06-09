@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
 #include "SDL/SDL_mixer.h"
+#include "hero.h"
 #include <math.h>
 #include <time.h>
 
@@ -19,7 +20,8 @@ typedef struct
     int rangR,resolution;
 } enigme;
 
-void enigme_math(SDL_Surface *screen,enigme *E);
+void enigme_math(SDL_Surface *screen, enigme *E, hero *h);
+//void enigme_math(SDL_Surface *screen,enigme *E);
 void initenigme(enigme *E);
 void afficherenigme(enigme *E, SDL_Surface *screen);
 void freeenigme(enigme *E);

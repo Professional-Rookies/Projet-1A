@@ -1,6 +1,5 @@
 #include "menu.h"
 
-
 #define SIZE 100
 #define TIME 30
 void load_story_intro(SDL_Surface *tab[])
@@ -67,7 +66,7 @@ void play_story_intro(SDL_Surface *screen, etat *etat, parameter *p, SDL_Surface
 	{
 		initialiser_text(&skip, "Press SPACEBAR to skip", 470, 550, 13);
 		skip.font = TTF_OpenFont("../fonts/8bit.ttf", 13);
-		skip.text=TTF_RenderText_Blended(skip.font,"Press SPACEBAR to skip",skip.color);
+		skip.text = TTF_RenderText_Blended(skip.font, "Press SPACEBAR to skip", skip.color);
 	}
 
 	if (frame >= 799)
@@ -438,19 +437,18 @@ void play_intro(SDL_Surface *tab[], SDL_Surface *ecran, etat *etat, parameter *p
 	pos.x = 0;
 	pos.y = 0;
 
-
 	while (SDL_PollEvent(&event))
 	{
-		switch(event.type)
+		switch (event.type)
 		{
-			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym)
-				{
-					case SDLK_ESCAPE:
-						*etat=STORY_INTRO;
-						break;
-				}
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				*etat = STORY_INTRO;
 				break;
+			}
+			break;
 		}
 	}
 	SDL_BlitSurface(tab[i], NULL, ecran, &pos);
@@ -629,20 +627,20 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	position_character_choice.w = SCREEN_WIDTH;
 	position_character_choice.h = SCREEN_HEIGHT;
 
-	SDL_Surface *cont = IMG_Load("../img/menu/buttons/continue.png");
-	SDL_Rect pos_continue;
-	pos_continue.x = 227;
-	pos_continue.y = 264;
-
 	SDL_Surface *new_game = IMG_Load("../img/menu/buttons/new_game.png");
 	SDL_Rect pos_new_game;
-	pos_new_game.x = 227;
-	pos_new_game.y = 219;
+	pos_new_game.x = 210;
+	pos_new_game.y = 210;
+
+	SDL_Surface *cont = IMG_Load("../img/menu/buttons/continue.png");
+	SDL_Rect pos_continue;
+	pos_continue.x = 210;
+	pos_continue.y = 250;
 
 	SDL_Surface *multiplayer = IMG_Load("../img/menu/buttons/multiplayer.png");
 	SDL_Rect pos_multiplayer;
-	pos_multiplayer.x = 227;
-	pos_multiplayer.y = 309;
+	pos_multiplayer.x = 210;
+	pos_multiplayer.y = 290;
 
 	SDL_Surface *back = IMG_Load("../img/menu/buttons/back.png");
 	SDL_Rect pos_back;

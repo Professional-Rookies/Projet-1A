@@ -2,8 +2,10 @@
 
 void initialiser_background(background *b, parameter p)
 {
-	b->image = IMG_Load("../img/background/background_new.jpg");
-	b->background_mask = IMG_Load("../img/background/background_new_masque.jpg");
+	/*b->image = IMG_Load("../img/background/background_new.jpg");
+	b->background_mask = IMG_Load("../img/background/background_new_masque.jpg");*/
+	b->image = IMG_Load("../img/background/1.jpg");
+	b->background_mask = IMG_Load("../img/background/2.jpg");
 	b->foreground = IMG_Load("../img/background/foreground_2.png");
 
 	b->posCamera.x = 400;
@@ -36,8 +38,8 @@ void initialiser_platforme(platforme *p, int x, int y, int interval, int sens)
 
 void initialiser_plats(platforme plats[], int n)
 {
-	initialiser_platforme(&plats[0], 1917, 1136, 740, 1);
-	initialiser_platforme(&plats[1], 3000, 1136, 550, -1);
+	initialiser_platforme(&plats[0], 1990, 1120, 680, 1);
+	initialiser_platforme(&plats[1], 3200, 1120, 350, -1);
 
 	initialiser_platforme(&plats[2], 450, 850, 80, 1);
 	initialiser_platforme(&plats[3], 700, 750, 200, 1);

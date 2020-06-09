@@ -13,8 +13,8 @@ void initialiser_hero(hero *h, char name[20])
 	char image_load[40] = "";
 	char score_str[10] = "";
 
-	h->position.x = 7070;//530;
-	h->position.y = 10;//1570;
+	h->position.x = 530; //7070;//530;
+	h->position.y = 1570; //10;//1570;
 
 	h->current_ground_position = h->position.y;
 
@@ -285,10 +285,9 @@ void deplacer_hero(hero *h, background *b, int *Jcontinuer, character c, platfor
 				{
 					gravity += 0.25;
 				}
-
 			}
-			if (tanguiza==0)
-				gravity=0;
+			if (tanguiza == 0)
+				gravity = 0;
 			if (keystates[SDLK_RIGHT] || (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x > h->position.x)))
 			{
 				if (h->direction == LEFT && accel >= 1)
@@ -650,10 +649,10 @@ void initialiser_portal(portal *p)
 		p->enter[j] = IMG_Load(image);
 	}
 
-	p->pos_still.x = 5075;
+	p->pos_still.x = 5575;
 	p->pos_still.y = 1020;
 
-	p->pos_enter.x = 5087;
+	p->pos_enter.x = 5587;
 	p->pos_enter.y = 600;
 
 	p->frame_still = 0;

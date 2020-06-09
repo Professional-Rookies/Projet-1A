@@ -407,20 +407,17 @@ void init_mats(mat *e, mat *c1, mat *c2)
 	c1->image = IMG_Load("../img/background/c1.png");
 	c2->image = IMG_Load("../img/background/c2.png");
 
-	e->position.x = 7000;
-	e->position.y = 1900;
-	e->position_init.x = 7000;
-	e->position_init.y = 1900;
+	e->position.x = 6950;
+	e->position.y = 1350;
+	e->position_init.y = 1350;
 
-	c1->position.x = 7200;
-	c1->position.y = 1900;
-	c1->position_init.x = 7200;
-	c1->position_init.y = 1900;
+	c1->position.x = 7350;
+	c1->position.y = 1550;
+	c1->position_init.y = 1550;
 
-	c2->position.x = 7400;
-	c2->position.y = 1900;
-	c2->position_init.x = 7400;
-	c2->position_init.y = 1900;
+	c2->position.x = 7630;
+	c2->position.y = 1530;
+	c2->position_init.y = 1530;
 }
 
 void animer_mat(mat *e, mat *c1, mat *c2)
@@ -432,9 +429,9 @@ void animer_mat(mat *e, mat *c1, mat *c2)
 	now = SDL_GetTicks();
 	if (now - then > 20)
 	{
-		e->position.y += 1 * sens;
-		c1->position.y += 1 * sens;
-		c2->position.y += 1 * sens;
+		e->position.y += 2 * sens;
+		c1->position.y += 2 * sens;
+		c2->position.y += 2 * sens;
 		then = now;
 	}
 	if (e->position.y >= e->position_init.y + 200)
@@ -491,7 +488,7 @@ void init_boss(boss *E, int x, int y)
 	E->position.y = y; //1570;
 	E->direction_entite = 1;
 
-	E->vie_boss.nb_vie = 3;
+	E->vie_boss.nb_vie = 4;
 	E->vie_boss.heart = IMG_Load("../img/hero/heart1.png");
 
 	E->vie_boss.position_heart_a.x = SCREEN_WIDTH - 0;
@@ -500,6 +497,15 @@ void init_boss(boss *E, int x, int y)
 	E->vie_boss.position_heart_b.y = 0;
 	E->vie_boss.position_heart_c.x = SCREEN_WIDTH - 100;
 	E->vie_boss.position_heart_c.y = 0;
+
+	E->health_full=IMG_Load("../img/es/health_full.png");
+	E->health_empty=IMG_Load("../img/es/health_empty.png");
+	E->health_1=IMG_Load("../img/es/health_1.png");
+	E->health_2=IMG_Load("../img/es/health_2.png");
+	E->health_3=IMG_Load("../img/es/health_3.png");
+
+	E->pos_health.x=SCREEN_WIDTH-(E->health_1->w);
+	E->pos_health.y=SCREEN_HEIGHT-(E->health_1->h);
 
 	E->sprite_entite.curframe = 0; //unused
 	srand(time(NULL));
@@ -661,10 +667,33 @@ void attack_boss(boss *E, hero *h)
 	}
 }
 
-void afficher_boss(boss *E, SDL_Surface *screen, background b)
+void afficher_boss(boss *E, SDL_Surface *screen, background b,hero h)
 {
 	SDL_Rect pos;
 	pos.x = E->position.x - b.posCamera.x;
 	pos.y = E->position.y - b.posCamera.y;
 	SDL_BlitSurface(E->sprite_entite.image, &E->sprite_entite.frame, screen, &pos);
+	if(h.position.x >= 7729 && h.position.y <= 560)
+	{
+		switch(E->vie_boss.nb_vie)
+	{
+		case 4:
+			SDL_BlitSurface(E->health_full, NULL, screen, &E->pos_health);
+			break;
+		case 3:
+			SDL_BlitSurface(E->health_1, NULL, screen, &E->pos_health);
+			break;
+		case 2:
+			SDL_BlitSurface(E->health_2, NULL, screen, &E->pos_health);
+			break;
+		case 1:
+			SDL_BlitSurface(E->health_3, NULL, screen, &E->pos_health);
+			break;
+		case 0:
+			SDL_BlitSurface(E->health_empty, NULL, screen, &E->pos_health);
+			break;
+
+	}
+	}
+	
 }

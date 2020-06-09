@@ -80,6 +80,9 @@ typedef struct Boss
     vie vie_boss;
     type type;
     int vitesse;
+
+    SDL_Surface *health_full,*health_empty,*health_1,*health_2,*health_3;
+    SDL_Rect pos_health;
 } boss;
 
 void input_ennemi(entite *E, hero *h);
@@ -120,7 +123,7 @@ void afficher_mat(mat e, mat c1, mat c2, background b, SDL_Surface *screen);
 void deplacer_alea_boss(boss *E);
 void init_boss(boss *E, int x, int y);
 void animer_boss(boss *E);
-void afficher_boss(boss *E, SDL_Surface *screen, background b);
+void afficher_boss(boss *E, SDL_Surface *screen, background b,hero h);
 void attack_boss(boss *E, hero *h);
 
 #endif
