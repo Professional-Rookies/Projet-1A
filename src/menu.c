@@ -469,7 +469,6 @@ void play_intro(SDL_Surface *tab[], SDL_Surface *ecran, etat *etat, parameter *p
 		*etat = INTRO;
 	}
 }
-
 void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 {
 	SDL_Event event;
@@ -607,7 +606,6 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 			}
 		}
 		SDL_BlitSurface(game_over_bg, NULL, screen, &position_game_over);
-		SDL_BlitSurface(h->score_hero.texte_score, NULL, screen, &h->score_hero.position_texte);
 		afficher_text_2(restart, screen, "Restart");
 		afficher_text_2(main_menu, screen, "Main Menu");
 		SDL_Flip(screen);
@@ -618,7 +616,6 @@ void game_over(SDL_Surface *screen, etat *etat, parameter *p, hero *h)
 	//SDL_Quit();
 }
 
-//! utilise les fonctions load_game afin de charger le porgres
 void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, parameter *p, character *c, dialogue *d)
 {
 	SDL_Event event;
@@ -843,7 +840,6 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	}
 }
 
-//! sauvegarde la position de l'hero, sa vie et son score dans un fichier texte et sera appelée dans la boucle du jeu
 void save_game(hero h, background b, character c, dialogue d)
 {
 	FILE *f = NULL;
@@ -864,7 +860,6 @@ void save_game(hero h, background b, character c, dialogue d)
 	}
 	fclose(f);
 }
-//! utilise le fichier txt de sauvegarde pour charger la position de l'hero, sa vie et son score et sera appelée dans l'ecran de chargement de l'hero
 void load_game(hero *h, background *b, character *c, dialogue *d)
 {
 	int i;
@@ -893,7 +888,6 @@ void load_game(hero *h, background *b, character *c, dialogue *d)
 	fclose(f);
 }
 
-//! permet de choisir le spritesheet a charger au depend du hero choisi (character c)
 void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, character *c)
 {
 	SDL_Event event;

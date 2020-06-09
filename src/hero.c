@@ -1,7 +1,6 @@
 #include "hero.h"
 #include "collision.h"
 
-//! initalise la position de l'hero, sa vie et son score et charge les spritesheets   
 void initialiser_hero(hero *h, char name[20])
 {
 	if (TTF_Init() == -1)
@@ -101,7 +100,6 @@ void afficher_hero(hero h, SDL_Surface *screen, background b)
 		SDL_BlitSurface(h.score_hero.texte_score, NULL, screen, &h.score_hero.position_texte);
 	}
 }
-//! Anime l'hero en utilisant le spritesheet en fonction de son STATE
 void animer_hero(hero *h, state movement, character c)
 {
 	if (h->sprite.image != NULL)

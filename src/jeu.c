@@ -79,10 +79,8 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	int passage_boucle = 0;
 	int once = 0;
-	int once_enigme_math = 0;
-	int once_enigme_AI = 0;
-	int once_enigme_pps = 0;
-	int once_enigme_pendu = 0;
+	int once_enigme = 0;
+	int once_pendu = 0;
 
 	int i;
 	int saving = 0;
@@ -92,58 +90,24 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	pos_save_screen.x = 280;
 	pos_save_screen.y = 280;
 
-	SDL_Surface *enigme_frames_1[10];
+	SDL_Surface *enigme_frames[10];
 
-	enigme_frames_1[0] = IMG_Load("../img/enigme/icon/1.png");
-	enigme_frames_1[1] = IMG_Load("../img/enigme/icon/2.png");
-	enigme_frames_1[2] = IMG_Load("../img/enigme/icon/3.png");
-	enigme_frames_1[3] = IMG_Load("../img/enigme/icon/4.png");
-	enigme_frames_1[4] = IMG_Load("../img/enigme/icon/5.png");
-	enigme_frames_1[5] = IMG_Load("../img/enigme/icon/6.png");
-	enigme_frames_1[6] = IMG_Load("../img/enigme/icon/7.png");
-	enigme_frames_1[7] = IMG_Load("../img/enigme/icon/8.png");
-	enigme_frames_1[8] = IMG_Load("../img/enigme/icon/9.png");
-	enigme_frames_1[9] = IMG_Load("../img/enigme/icon/10.png");
-
-	SDL_Surface *enigme_frames_2[10];
-
-	enigme_frames_2[0] = IMG_Load("../img/enigme/icon/1.png");
-	enigme_frames_2[1] = IMG_Load("../img/enigme/icon/2.png");
-	enigme_frames_2[2] = IMG_Load("../img/enigme/icon/3.png");
-	enigme_frames_2[3] = IMG_Load("../img/enigme/icon/4.png");
-	enigme_frames_2[4] = IMG_Load("../img/enigme/icon/5.png");
-	enigme_frames_2[5] = IMG_Load("../img/enigme/icon/6.png");
-	enigme_frames_2[6] = IMG_Load("../img/enigme/icon/7.png");
-	enigme_frames_2[7] = IMG_Load("../img/enigme/icon/8.png");
-	enigme_frames_2[8] = IMG_Load("../img/enigme/icon/9.png");
-	enigme_frames_2[9] = IMG_Load("../img/enigme/icon/10.png");
-
-	SDL_Surface *enigme_frames_3[10];
-
-	enigme_frames_3[0] = IMG_Load("../img/enigme/icon/1.png");
-	enigme_frames_3[1] = IMG_Load("../img/enigme/icon/2.png");
-	enigme_frames_3[2] = IMG_Load("../img/enigme/icon/3.png");
-	enigme_frames_3[3] = IMG_Load("../img/enigme/icon/4.png");
-	enigme_frames_3[4] = IMG_Load("../img/enigme/icon/5.png");
-	enigme_frames_3[5] = IMG_Load("../img/enigme/icon/6.png");
-	enigme_frames_3[6] = IMG_Load("../img/enigme/icon/7.png");
-	enigme_frames_3[7] = IMG_Load("../img/enigme/icon/8.png");
-	enigme_frames_3[8] = IMG_Load("../img/enigme/icon/9.png");
-	enigme_frames_3[9] = IMG_Load("../img/enigme/icon/10.png");
+	enigme_frames[0] = IMG_Load("../img/enigme/icon/1.png");
+	enigme_frames[1] = IMG_Load("../img/enigme/icon/2.png");
+	enigme_frames[2] = IMG_Load("../img/enigme/icon/3.png");
+	enigme_frames[3] = IMG_Load("../img/enigme/icon/4.png");
+	enigme_frames[4] = IMG_Load("../img/enigme/icon/5.png");
+	enigme_frames[5] = IMG_Load("../img/enigme/icon/6.png");
+	enigme_frames[6] = IMG_Load("../img/enigme/icon/7.png");
+	enigme_frames[7] = IMG_Load("../img/enigme/icon/8.png");
+	enigme_frames[8] = IMG_Load("../img/enigme/icon/9.png");
+	enigme_frames[9] = IMG_Load("../img/enigme/icon/10.png");
 
 	int now = 0;
 	int then = 0;
-
-	SDL_Rect pos_enigme1, pos_enigme2, pos_enigme3;
-
-	pos_enigme1.x = 1000;
-	pos_enigme1.y = 1500;
-
-	pos_enigme2.x = 1080;
-	pos_enigme2.y = 985;
-
-	pos_enigme3.x = 3030;
-	pos_enigme3.y = 445;
+	SDL_Rect pos_enigme;
+	pos_enigme.x = 500;
+	pos_enigme.y = 1570;
 
 	text save_text;
 	initialiser_text(&save_text, "", 315, 320, 10);
@@ -152,17 +116,16 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	save_text.color.b = 0;
 
 	int en_frame = 0;
-	int once_p = 0;
+	int once_p=0;
 
-	SDL_Rect posss1, posss2, posss3;
-	enigme enigMath;
+	SDL_Rect posss;
 
 	while (Jcontinuer)
 	{
 		if (safwen->position.x >= 1850 && safwen->collision_DOWN && !once_p)
 		{
-			pan = 1;
-			once_p = 1;
+			pan=1;
+			once_p=1;
 		}
 		if (pan)
 			camera_pan(&background, *safwen, 1900, 1300, &pan, 5);
@@ -171,30 +134,11 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 		CollisionParfaite(safwen, background);
 
-		//enigmes a passer
-
-		//enigme Math
-		if (safwen->position.x >= 1000 && safwen->position.y <= 1570 && once_enigme_math != 1)
+		/*if (safwen->position.x >= 700 && once_enigme != 1)
 		{
-			enigme_math(ecran, &enigMath, safwen);
-			once_enigme_math = 1;
-			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-		}
-
-		//enigme Pendu
-		if (safwen->position.x <= 1100 && safwen->position.y <= 1055 && once_enigme_pendu != 1)
-		{
-			enigme_pendu(ecran, safwen);
-			once_enigme_pendu = 1;
-			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-		}
-
-		//AI
-		if (safwen->position.x >= 3030 && safwen->position.y <= 510 && once_enigme_AI != 1)
-		{
-			AI_enigme(ecran, safwen);
-			once_enigme_AI = 1;
-		}
+			AI_enigme(ecran,safwen);
+			once_enigme = 1;
+		}*/
 
 		/*if (safwen->position.x >= 900 && once_pendu != 1)
 		{
@@ -202,6 +146,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			once_pendu = 1;
 			ecran=SDL_SetVideoMode(SCREEN_WIDTH_GAME,SCREEN_HEIGHT_GAME,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
 		}*/
+	
 
 		plat_coll = collision_platforme(safwen, platformes, NB_PLATFORMES);
 
@@ -239,7 +184,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			safwen->position.x += 1200;
 			safwen->position.y += 600;
 		}
-
 		//save
 		if (saving == 0)
 		{
@@ -268,6 +212,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 				once = 0;
 			}
 		}
+
 
 		for (i = 0; i < NB_ENNEMIES; i++)
 		{
@@ -310,18 +255,9 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		if (en_frame == 8)
 			en_frame = 0;
 
-		posss1.x = pos_enigme1.x - background.posCamera.x;
-		posss1.y = pos_enigme1.y - background.posCamera.y;
-		posss2.x = pos_enigme2.x - background.posCamera.x;
-		posss2.y = pos_enigme2.y - background.posCamera.y;
-		posss3.x = pos_enigme3.x - background.posCamera.x;
-		posss3.y = pos_enigme3.y - background.posCamera.y;
-		if (once_enigme_math!= 1)
-			SDL_BlitSurface(enigme_frames_1[en_frame], NULL, ecran, &posss1);
-		if (once_enigme_pendu != 1)
-			SDL_BlitSurface(enigme_frames_2[en_frame], NULL, ecran, &posss2);
-		if (once_enigme_AI != 1)
-			SDL_BlitSurface(enigme_frames_3[en_frame], NULL, ecran, &posss3);
+		posss.x = pos_enigme.x - background.posCamera.x;
+		posss.y = pos_enigme.y - background.posCamera.y;
+		//SDL_BlitSurface(enigme_frames[en_frame], NULL, ecran, &posss);
 
 		afficher_instructions(instructions, NB_INSTRUCTIONS, background, ecran);
 

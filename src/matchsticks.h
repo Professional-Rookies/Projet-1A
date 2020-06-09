@@ -34,7 +34,7 @@ typedef struct Matchstick
 void AI_Game(SDL_Surface *screen);
 
 
-void AI_enigme(SDL_Surface *screen,hero *h);
+int AI_enigme(SDL_Surface *screen,hero *h);
 
 void initialiser_text_enigme(text_enigme *i, char message[40], int x, int y, int size);
 void afficher_text_enigme(text_enigme i, SDL_Surface *ecran, char message[20]);
