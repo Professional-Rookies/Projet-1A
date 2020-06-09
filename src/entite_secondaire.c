@@ -22,8 +22,8 @@ void initialiser_entite(entite *E, int x, int y)
 }
 void initialiser_ennemies(entite tab[], int n)
 {
-	initialiser_entite(&tab[0],2100,1570);
-	initialiser_entite(&tab[1],1242,1055);
+	initialiser_entite(&tab[0], 2100, 1570);
+	initialiser_entite(&tab[1], 1242, 1055);
 }
 
 //this fonction needs tweaking. Apply same idea as animer_coins/animer_hearts
@@ -356,6 +356,15 @@ void hearts_interaction(heart hearts[], int n, hero *h)
 			h->vie_hero.nb_vie++;
 			Mix_PlayChannel(-1, hearts[i].click, 0);
 			hearts[i].image = NULL;
+			switch (h->vie_hero.nb_vie)
+			{
+			case 3:
+				h->vie_hero.position_heart_c.x = 100;
+				break;
+			case 2:
+				h->vie_hero.position_heart_b.x = 50;
+				break;
+			}
 		}
 	}
 }
@@ -390,4 +399,205 @@ void free_hearts(heart hearts[], int n)
 		SDL_FreeSurface(hearts[i].image);
 		Mix_FreeChunk(hearts[i].click);
 	}
+}
+
+void init_mats(mat *e, mat *c1, mat *c2)
+{
+	e->image = IMG_Load("../img/background/e.png");
+	c1->image = IMG_Load("../img/background/c1.png");
+	c2->image = IMG_Load("../img/background/c2.png");
+
+	e->position.x = 7000;
+	e->position.y = 1900;
+	e->position_init.x = 7000;
+	e->position_init.y = 1900;
+
+	c1->position.x = 7200;
+	c1->position.y = 1900;
+	c1->position_init.x = 7200;
+	c1->position_init.y = 1900;
+
+	c2->position.x = 7400;
+	c2->position.y = 1900;
+	c2->position_init.x = 7400;
+	c2->position_init.y = 1900;
+}
+
+void animer_mat(mat *e, mat *c1, mat *c2)
+{
+	static int now = 0;
+	static int then = 0;
+	static int sens = 1;
+
+	now = SDL_GetTicks();
+	if (now - then > 20)
+	{
+		e->position.y += 1 * sens;
+		c1->position.y += 1 * sens;
+		c2->position.y += 1 * sens;
+		then = now;
+	}
+	if (e->position.y >= e->position_init.y + 200)
+		sens = -1;
+	else if (e->position.y <= e->position_init.y)
+		sens = 1;
+}
+void collision_mat(hero *h, mat e, mat c1, mat c2)
+{
+	static int once = 0;
+	if (!once && h->position.y <= e.position.y + e.image->h && h->position.y >= e.position.y && h->position.x >= e.position.x && h->position.x <= e.position.x + e.image->w)
+	{
+		h->vie_hero.nb_vie = 0;
+		once = 1;
+	}
+	if (!once && h->position.y <= c1.position.y + c1.image->h && h->position.y >= c1.position.y && h->position.x >= c1.position.x && h->position.x <= c1.position.x + c1.image->w)
+	{
+		h->vie_hero.nb_vie = 0;
+		once = 1;
+	}
+	if (!once && h->position.y <= c2.position.y + c2.image->h && h->position.y >= c2.position.y && h->position.x >= c2.position.x && h->position.x <= c2.position.x + c2.image->w)
+	{
+		h->vie_hero.nb_vie = 0;
+		once = 1;
+	}
+}
+
+void afficher_mat(mat e, mat c1, mat c2, background b, SDL_Surface *screen)
+{
+	static SDL_Rect pos;
+
+	pos.x = e.position.x - b.posCamera.x;
+	pos.y = e.position.y - b.posCamera.y;
+	SDL_BlitSurface(e.image, NULL, screen, &pos);
+	pos.x = c1.position.x - b.posCamera.x;
+	pos.y = c1.position.y - b.posCamera.y;
+	SDL_BlitSurface(c1.image, NULL, screen, &pos);
+	pos.x = c2.position.x - b.posCamera.x;
+	pos.y = c2.position.y - b.posCamera.y;
+	SDL_BlitSurface(c2.image, NULL, screen, &pos);
+}
+
+void init_boss(boss *E, int x, int y)
+{
+	E->sprite_entite.image = IMG_Load("../img/es/walk_Firas.png");
+	E->sprite_entite.maxframe = 4;
+	E->sprite_entite.frame.x = 0;
+	E->sprite_entite.frame.y = 0; //2=Nb de ligne(g/d)
+	E->sprite_entite.frame.w = E->sprite_entite.image->w / E->sprite_entite.maxframe;
+	E->sprite_entite.frame.h = E->sprite_entite.image->h / 2; //2=Nb de ligne(g/d)
+	E->type = ENTITE;
+	E->state_entite = WALK_entite;
+	E->position.x = x; // 2100;
+	E->position.y = y; //1570;
+	E->direction_entite = 0;
+
+	E->vie_boss.nb_vie = 4;
+	E->vie_boss.heart = IMG_Load("../img/hero/heart1.png");
+
+	E->vie_boss.position_heart_a.x = SCREEN_WIDTH - 0;
+	E->vie_boss.position_heart_a.y = 0;
+	E->vie_boss.position_heart_b.x = SCREEN_WIDTH - 50;
+	E->vie_boss.position_heart_b.y = 0;
+	E->vie_boss.position_heart_c.x = SCREEN_WIDTH - 100;
+	E->vie_boss.position_heart_c.y = 0;
+
+	E->sprite_entite.curframe = 0; //unused
+	srand(time(NULL));
+	E->posMin.x = rand() % 200 + 100 + E->position.x; //+ position Hero
+	E->posMax.x = rand() % 100 + E->posMin.x;
+}
+void deplacer_alea_boss(boss *E)
+{
+	if (E->sprite_entite.image != NULL)
+	{
+		if (E->position.x > E->posMax.x)
+			E->direction_entite = 0;
+		if (E->position.x < E->posMin.x)
+			E->direction_entite = 1;
+		if (E->direction_entite == 1)
+			(E->position.x)--;
+		if (E->direction_entite == 0)
+			(E->position.x)++;
+	}
+}
+
+void animer_boss(boss *E)
+{
+	static int dead = 0, walking = 0, following = 0;
+	if (E->sprite_entite.image != NULL)
+	{
+		static int tempsActuel = 0;
+		static int tempsPrecedent = 0;
+
+		switch (E->state_entite)
+		{
+		case (DIE_entite):
+		{
+			if (!dead)
+			{
+				E->sprite_entite.image = IMG_Load("../img/es/Die_Firas.png");
+				E->sprite_entite.maxframe = 4;
+				dead = 1;
+				walking = 0;
+				following = 0;
+			}
+
+			break;
+		}
+		case (WALK_entite):
+		{
+			if (!walking)
+			{
+				E->sprite_entite.image = IMG_Load("../img/es/walk_Firas.png");
+				E->sprite_entite.maxframe = 4;
+				walking = 1;
+				dead = 0;
+				following = 0;
+			}
+
+			break;
+		}
+		case (FOLLOW_entite):
+		{
+			if (!following)
+			{
+				E->sprite_entite.image = IMG_Load("../img/es/attack_Firas.png");
+				E->sprite_entite.maxframe = 4;
+				following = 1;
+				dead = 0;
+				walking = 0;
+			}
+
+			break;
+		}
+			E->sprite_entite.frame.w = E->sprite_entite.image->w / E->sprite_entite.maxframe;
+			E->sprite_entite.frame.h = E->sprite_entite.image->h / 2; //2=Nb de ligne(g/d)
+
+			//opt
+			//E->sprite_entite.image = SDL_DisplayFormat(E->sprite_entite.image);
+			/*case (ATTACK_entite):
+	{
+		E->sprite_entite.image = IMG_Load("img/es/attack.png");
+		E->sprite_entite.maxframe = 3;
+		break;
+	}*/
+		}
+		E->sprite_entite.frame.y = E->direction_entite * E->sprite_entite.frame.h; // nb =  E->direction * E->sprite_entite.frame.h
+		tempsActuel = SDL_GetTicks();
+		if (tempsActuel - tempsPrecedent > 200)
+		{
+			if (E->sprite_entite.frame.x >= E->sprite_entite.frame.w * 3)
+				E->sprite_entite.frame.x = 0;
+			else
+				E->sprite_entite.frame.x += E->sprite_entite.frame.w;
+			tempsPrecedent = tempsActuel;
+		}
+	}
+}
+void afficher_boss(boss *E, SDL_Surface *screen, background b)
+{
+	SDL_Rect pos;
+	pos.x = E->position.x - b.posCamera.x;
+	pos.y = E->position.y - b.posCamera.y;
+	SDL_BlitSurface(E->sprite_entite.image, &E->sprite_entite.frame, screen, &pos);
 }

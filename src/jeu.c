@@ -36,6 +36,12 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	timer timer, pan_timer;
 	minimap minimap;
 	portal portal;
+	boss boss;
+	init_boss(&boss,600,1570);
+
+	//mat e,c1,c2;
+	//init_mats(&e,&c1,&c2);
+
 
 	int plat_coll;
 	int plat_coll_horiz;
@@ -133,6 +139,9 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, NB_PLATFORMES, &mini);
 
 		CollisionParfaite(safwen, background);
+		animer_boss(&boss);
+		deplacer_alea_boss(&boss);
+		
 
 		/*if (safwen->position.x >= 700 && once_enigme != 1)
 		{
@@ -234,14 +243,18 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		animer_platformes(platformes, NB_PLATFORMES);
 		//animer_platformes_horiz(platformes_horiz, NB_PLATFORMES_HORIZ);
 		animer_portal(&portal);
+		//animer_mat(&e,&c1,&c2);
+		//collision_mat(safwen,e,c1,c2);
 
 		afficher_background(&background, ecran);
 		afficher_platformes(platformes, background, ecran, NB_PLATFORMES);
 		//afficher_platformes(platformes_horiz, background, ecran, NB_PLATFORMES_HORIZ);
+		afficher_boss(&boss,ecran,background);
 
 		afficher_coins(coins, NB_COINS, background, ecran);
 		afficher_hearts(hearts, NB_HEARTS, background, ecran);
 		afficher_ennemies(ennemies, NB_ENNEMIES, ecran, background);
+		//afficher_mat(e,c1,c2,background,ecran);
 
 		now = SDL_GetTicks();
 		if (now - then > 40)
@@ -326,4 +339,5 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	free_platformes(platformes_horiz, NB_PLATFORMES_HORIZ);
 	free_minimap(&minimap);
 	free_portal(&portal);
+	SDL_FreeSurface(boss.sprite_entite.image);
 }

@@ -1,6 +1,7 @@
 #include "hero.h"
 #include "collision.h"
 
+//! initalise la position de l'hero, sa vie et son score et charge les spritesheets
 void initialiser_hero(hero *h, char name[20])
 {
 	if (TTF_Init() == -1)
@@ -100,6 +101,7 @@ void afficher_hero(hero h, SDL_Surface *screen, background b)
 		SDL_BlitSurface(h.score_hero.texte_score, NULL, screen, &h.score_hero.position_texte);
 	}
 }
+//! Anime l'hero en utilisant le spritesheet en fonction de son STATE
 void animer_hero(hero *h, state movement, character c)
 {
 	if (h->sprite.image != NULL)
@@ -278,8 +280,15 @@ void deplacer_hero(hero *h, background *b, int *Jcontinuer, character c, platfor
 			{
 
 				animer_hero(h, FALLING, c);
-				h->position.y += JUMP_SPEED;
+				h->position.y += JUMP_SPEED + gravity;
+				if (!h->collision_DOWN)
+				{
+					gravity += 0.25;
+				}
+
 			}
+			if (tanguiza==0)
+				gravity=0;
 			if (keystates[SDLK_RIGHT] || (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && (event.motion.x > h->position.x)))
 			{
 				if (h->direction == LEFT && accel >= 1)
@@ -561,14 +570,14 @@ void playing_dialogue(dialogue *d, hero h, SDL_Surface *ecran, timer timer)
 		d->hero_dialogue = NULL;
 	}
 
-	if (timer.time.secondes >= 20 && timer.time.secondes < 25)
+	/*if (timer.time.secondes >= 20 && timer.time.secondes < 25)
 	{
 		printf("HERE\n");
 		d->text.text = TTF_RenderText_Blended(d->text.font, d->script[15], d->text.color);
 		d->hero_dialogue = IMG_Load("../img/hero/safwen_choice_active.png");
 		d->dialogue_box = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH_GAME, 180, 32, 0, 0, 0, 0);
 		SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
-	}
+	}*/
 	/*if (h.position.x >= 1690 && h.position.x <= 1990 && h.position.y >= 1560)
 	{
 
@@ -722,9 +731,9 @@ void camera_pan(background *b, hero h, int x, int y, int *panning, int duree)
 {
 	static int first = 0;
 	static timer t;
-	static int once=0;
+	static int once = 0;
 
-		printf("TIMER FCT: %d\n", t.time.secondes);
+	printf("TIMER FCT: %d\n", t.time.secondes);
 
 	if (first == 0)
 	{
@@ -740,7 +749,7 @@ void camera_pan(background *b, hero h, int x, int y, int *panning, int duree)
 			if (!once)
 			{
 				start_timer(&t);
-				once=1;
+				once = 1;
 			}
 		}
 		else
@@ -755,7 +764,7 @@ void camera_pan(background *b, hero h, int x, int y, int *panning, int duree)
 		{
 			*panning = 0;
 			first = 0;
-			once=0;
+			once = 0;
 			stop_timer(&t);
 			b->posCamera.x = (h.position.x + 5 * h.sprite.frame.w) - SCREEN_WIDTH_GAME;
 			b->posCamera.y = (h.position.y + 4 * h.sprite.frame.h) - SCREEN_HEIGHT_GAME;
