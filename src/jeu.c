@@ -131,7 +131,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	while (Jcontinuer)
 	{
 		printf("BOSS: %d\n", boss.vie_boss.nb_vie);
-		if (safwen->position.x >= 1850 && safwen->collision_DOWN && !once_p)
+		/*if (safwen->position.x >= 1850 && safwen->collision_DOWN && !once_p)
 		{
 			pan=1;
 			once_p=1;
@@ -140,7 +140,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		{
 			pan2=1;
 			once_p2=1;
-		}
+		}*/
 		printf("CAMERA: (%d,%d)\n", background.posCamera.x, background.posCamera.y);
 		if (pan2)
 		{
