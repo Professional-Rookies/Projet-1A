@@ -121,5 +121,6 @@ void deplacer_alea_boss(boss *E);
 void init_boss(boss *E, int x, int y);
 void animer_boss(boss *E);
 void afficher_boss(boss *E, SDL_Surface *screen, background b);
+void attack_boss(boss *E, hero *h);
 
 #endif

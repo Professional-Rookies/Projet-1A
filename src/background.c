@@ -42,6 +42,18 @@ void initialiser_plats(platforme plats[], int n)
 	initialiser_platforme(&plats[2], 450, 850, 80, 1);
 	initialiser_platforme(&plats[3], 700, 750, 200, 1);
 	initialiser_platforme(&plats[4], 950, 650, 150, 1);
+
+	initialiser_platforme(&plats[5], 8200, 2200, 80, 1);
+	initialiser_platforme(&plats[6], 8200, 2100, 200, 1);
+	initialiser_platforme(&plats[7], 8200, 2000, 150, 1);
+
+	initialiser_platforme(&plats[8], 8000, 1900, 180, 1);
+	initialiser_platforme(&plats[9], 8000, 1800, 300, 1);
+	initialiser_platforme(&plats[10], 8000, 1700, 250, 1);
+	initialiser_platforme(&plats[11], 8000, 1600, 250, 1);
+
+	initialiser_platforme(&plats[12], 7900, 1500, 250, 1);
+
 }
 
 void initialiser_plats_horiz(platforme plats[], int n)

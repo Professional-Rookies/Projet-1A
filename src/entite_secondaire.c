@@ -489,9 +489,9 @@ void init_boss(boss *E, int x, int y)
 	E->state_entite = WALK_entite;
 	E->position.x = x; // 2100;
 	E->position.y = y; //1570;
-	E->direction_entite = 0;
+	E->direction_entite = 1;
 
-	E->vie_boss.nb_vie = 4;
+	E->vie_boss.nb_vie = 3;
 	E->vie_boss.heart = IMG_Load("../img/hero/heart1.png");
 
 	E->vie_boss.position_heart_a.x = SCREEN_WIDTH - 0;
@@ -503,7 +503,7 @@ void init_boss(boss *E, int x, int y)
 
 	E->sprite_entite.curframe = 0; //unused
 	srand(time(NULL));
-	E->posMin.x = rand() % 200 + 100 + E->position.x; //+ position Hero
+	E->posMin.x = rand() % 300 + 100 + E->position.x; //+ position Hero
 	E->posMax.x = rand() % 100 + E->posMin.x;
 }
 void deplacer_alea_boss(boss *E)
@@ -511,9 +511,9 @@ void deplacer_alea_boss(boss *E)
 	if (E->sprite_entite.image != NULL)
 	{
 		if (E->position.x > E->posMax.x)
-			E->direction_entite = 0;
-		if (E->position.x < E->posMin.x)
 			E->direction_entite = 1;
+		if (E->position.x < E->posMin.x)
+			E->direction_entite = 0;
 		if (E->direction_entite == 1)
 			(E->position.x)--;
 		if (E->direction_entite == 0)
@@ -594,6 +594,73 @@ void animer_boss(boss *E)
 		}
 	}
 }
+
+void attack_boss(boss *E, hero *h)
+{
+	if (E->sprite_entite.image != NULL)
+	{
+		//E->state_entite = FOLLOW_entite;
+		if (E->position.x > h->position.x)
+		{
+			E->direction_entite = 1;
+			E->position.x -= 2;
+		}
+		else if (E->position.x < h->position.x)
+		{
+			E->direction_entite = 0;
+			E->position.x += 2;
+		}
+		else if (E->position.x == h->position.x)
+			E->direction_entite = 0;
+		if (collision_boss(E, h) == 1)
+		{
+			static int tempsActuel = 0;
+			static int tempsPrecedent = -2000;
+			static int now = 0;
+			static int then = -2000;
+			if ((h->state != KICK && h->state != PUNCH))
+			{
+				tempsActuel = SDL_GetTicks();
+				h->state = DAMAGE;
+				if (tempsActuel - tempsPrecedent >= 2000)
+				{
+					h->vie_hero.nb_vie--;
+					tempsPrecedent = tempsActuel;
+				}
+			}
+			if (h->state == PUNCH || h->state == KICK)
+			{
+				now = SDL_GetTicks();
+				E->state_entite = DAMAGE;
+				if (now - then >= 500)
+				{
+					E->vie_boss.nb_vie--;
+					then = now;
+				}
+
+				if (E->vie_boss.nb_vie == 0)
+				{
+					//E->state_entite = DIE_entite;
+					E->sprite_entite.image = NULL;
+
+				}
+			}
+			switch (h->vie_hero.nb_vie)
+			{
+			case 2:
+				h->vie_hero.position_heart_c.x = 0;
+				break;
+			case 1:
+				h->vie_hero.position_heart_b.x = 0;
+				break;
+			case 0:
+				h->vie_hero.heart = NULL;
+				break;
+			}
+		}
+	}
+}
+
 void afficher_boss(boss *E, SDL_Surface *screen, background b)
 {
 	SDL_Rect pos;

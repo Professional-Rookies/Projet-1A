@@ -125,8 +125,36 @@ int collision_platforme(hero *h, platforme plats[], int n)
 			h->collision_UP = 1;
 	}
 }
+int collision_platforme2(hero *h, platforme plats[], int n)
+{
+	static int i;
+	for (i = 0; i < n; i++)
+	{
+		if (!(h->position.y > plats[i].position.y + plats[i].image->h || h->position.y + h->sprite.frame.h < plats[i].position.y || h->position.x > plats[i].position.x + plats[i].image->w || h->position.x <= plats[i].position.x))
+			{
+				h->collision_DOWN = 1;
+				h->collision_DOWN_PLAT=1;
+				return i;
+			}
+			
+		if (!(abs(h->position.y - plats[i].position.y - plats[i].image->h) > 5 || h->position.x > plats[i].position.x + plats[i].image->w || h->position.x <= plats[i].position.x))
+			h->collision_UP = 1;
+	}
+}
 
 int collision(entite *e, hero *h)
+{
+	if ((h->position.x + h->sprite.frame.w / 4 < e->position.x) || (h->position.x > e->position.x + e->sprite_entite.frame.w / 4) || (h->position.y + h->sprite.frame.h < e->position.y) || (h->position.y > e->position.y + e->sprite_entite.frame.h))
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+int collision_boss(boss *e, hero *h)
 {
 	if ((h->position.x + h->sprite.frame.w / 4 < e->position.x) || (h->position.x > e->position.x + e->sprite_entite.frame.w / 4) || (h->position.y + h->sprite.frame.h < e->position.y) || (h->position.y > e->position.y + e->sprite_entite.frame.h))
 	{

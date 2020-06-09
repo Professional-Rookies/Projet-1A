@@ -1,6 +1,6 @@
 #include "jeu.h"
 
-#define NB_PLATFORMES 5
+#define NB_PLATFORMES 13
 #define NB_PLATFORMES_HORIZ 2
 #define NB_COINS 5
 #define NB_HEARTS 1
@@ -37,11 +37,10 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	minimap minimap;
 	portal portal;
 	boss boss;
-	init_boss(&boss,600,1570);
+	init_boss(&boss, 9500, 570);
 
 	//mat e,c1,c2;
 	//init_mats(&e,&c1,&c2);
-
 
 	int plat_coll;
 	int plat_coll_horiz;
@@ -122,26 +121,39 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 	save_text.color.b = 0;
 
 	int en_frame = 0;
-	int once_p=0;
+	int once_p = 0;
+
+	int once_p2 = 0;
+	int pan2 = 0;
 
 	SDL_Rect posss;
 
 	while (Jcontinuer)
 	{
+		printf("BOSS: %d\n", boss.vie_boss.nb_vie);
 		if (safwen->position.x >= 1850 && safwen->collision_DOWN && !once_p)
 		{
 			pan=1;
 			once_p=1;
 		}
+		if (safwen->position.x >= 7729 && safwen->position.y <= 560 && safwen->collision_DOWN && !once_p2)
+		{
+			pan2=1;
+			once_p2=1;
+		}
+		printf("CAMERA: (%d,%d)\n", background.posCamera.x, background.posCamera.y);
+		if (pan2)
+		{
+			camera_pan(&background, *safwen, 9400, 250, &pan2, 5);
+		}
 		if (pan)
 			camera_pan(&background, *safwen, 1900, 1300, &pan, 5);
-		if (!pan)
+		if (!pan && !pan2)
 			deplacer_hero(safwen, &background, &Jcontinuer, c, platformes, &saving, NB_PLATFORMES, &mini);
 
 		CollisionParfaite(safwen, background);
 		animer_boss(&boss);
-		deplacer_alea_boss(&boss);
-		
+		//deplacer_alea_boss(&boss);
 
 		/*if (safwen->position.x >= 700 && once_enigme != 1)
 		{
@@ -155,7 +167,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			once_pendu = 1;
 			ecran=SDL_SetVideoMode(SCREEN_WIDTH_GAME,SCREEN_HEIGHT_GAME,32,SDL_DOUBLEBUF|SDL_HWSURFACE);
 		}*/
-	
 
 		plat_coll = collision_platforme(safwen, platformes, NB_PLATFORMES);
 
@@ -172,20 +183,15 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			}
 		}
 
-		/*plat_coll_horiz = collision_platforme(safwen, platformes_horiz, NB_PLATFORMES_HORIZ);
-
-		for (i = 0; i < NB_PLATFORMES_HORIZ; i++)
+		if (abs(safwen->position.x - boss.position.x) < 400)
+			attack_boss(&boss, safwen);
+		else
 		{
-			tempsActuel2 = SDL_GetTicks();
-			if (safwen->collision_DOWN_PLAT && safwen->state == IDLE)
-			{
-				if (tempsActuel2 - tempsPrecedent2 > 10)
-				{
-					safwen->position.y += 1 * platformes_horiz[plat_coll_horiz].sens;
-					tempsPrecedent2 = tempsActuel2;
-				}
-			}
-		}*/
+			deplacer_alea_boss(&boss);
+		}
+
+		printf("SAF VIE: %d\n", safwen->vie_hero.nb_vie);
+
 
 		//portal
 		if (safwen->position.x >= 5100 && safwen->position.x <= 5340 && safwen->position.y >= 1070 && safwen->position.y <= 1120)
@@ -222,7 +228,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			}
 		}
 
-
 		for (i = 0; i < NB_ENNEMIES; i++)
 		{
 			if (abs(safwen->position.x - ennemies[i].position.x) <= 250 && abs(safwen->position.y - ennemies[i].position.y) >= 0 && abs(safwen->position.y - ennemies[i].position.y) <= 50)
@@ -249,7 +254,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		afficher_background(&background, ecran);
 		afficher_platformes(platformes, background, ecran, NB_PLATFORMES);
 		//afficher_platformes(platformes_horiz, background, ecran, NB_PLATFORMES_HORIZ);
-		afficher_boss(&boss,ecran,background);
+		afficher_boss(&boss, ecran, background);
 
 		afficher_coins(coins, NB_COINS, background, ecran);
 		afficher_hearts(hearts, NB_HEARTS, background, ecran);
@@ -327,6 +332,13 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		SDL_Flip(ecran);
 
 		printf("safwen: (%d;%d)\n", safwen->position.x, safwen->position.y);
+		//if (safwen->position.x >= 9979 && safwen->position.y <= 570)
+		if (boss.vie_boss.nb_vie==0)
+		{
+			//boss.sprite_entite.image = NULL;
+			*etat = CREDS;
+			Jcontinuer = 0;
+		}
 	}
 	free_hero(safwen);
 	free_background(&background);

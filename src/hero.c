@@ -13,8 +13,8 @@ void initialiser_hero(hero *h, char name[20])
 	char image_load[40] = "";
 	char score_str[10] = "";
 
-	h->position.x = 530;
-	h->position.y = 1570;
+	h->position.x = 7070;//530;
+	h->position.y = 10;//1570;
 
 	h->current_ground_position = h->position.y;
 
@@ -404,16 +404,16 @@ void deplacer_hero(hero *h, background *b, int *Jcontinuer, character c, platfor
 						break;
 
 					case SDLK_f:
-						h->position.x -= 100;
+						h->position.x -= 200;
 						break;
 					case SDLK_h:
-						h->position.x += 100;
+						h->position.x += 200;
 						break;
 					case SDLK_t:
-						h->position.y -= 200;
+						h->position.y -= 300;
 						break;
 					case SDLK_g:
-						h->position.y += 200;
+						h->position.y += 300;
 						break;
 					case SDLK_TAB:
 						(*mini) *= -1;
