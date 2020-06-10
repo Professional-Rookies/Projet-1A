@@ -114,9 +114,6 @@ void enigme_cpf(SDL_Surface *screen, hero *h)
                 continuer = 0;
                 SDL_Delay(1000);
             }
-            printf("RES: %d\n", res);
-            printf("CPC: %d\n", e.choix_ordinateur);
-            printf("CH: %d\n", e.choix_hero);
             SDL_BlitSurface(e.plan, NULL, screen, &e.position_plan);
             SDL_BlitSurface(e.ciseaux, NULL, screen, &e.position_ciseaux);
             SDL_BlitSurface(e.pierre, NULL, screen, &e.position_pierre);

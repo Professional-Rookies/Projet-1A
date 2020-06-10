@@ -1,3 +1,6 @@
+/**
+ * @file multiplayer.c
+ */
 #include "multiplayer.h"
 
 void initialiser_hero2(hero *h, char name[20])
@@ -44,11 +47,11 @@ void initialiser_hero2(hero *h, char name[20])
 	h->vie_hero.heart = IMG_Load("../img/hero/heart1.png");
 
 	h->vie_hero.position_heart_a.x = 0;
-	h->vie_hero.position_heart_a.y = SCREEN_HEIGHT/2;
+	h->vie_hero.position_heart_a.y = SCREEN_HEIGHT / 2;
 	h->vie_hero.position_heart_b.x = 50;
-	h->vie_hero.position_heart_b.y = SCREEN_HEIGHT/2;
+	h->vie_hero.position_heart_b.y = SCREEN_HEIGHT / 2;
 	h->vie_hero.position_heart_c.x = 100;
-	h->vie_hero.position_heart_c.y = SCREEN_HEIGHT/2;
+	h->vie_hero.position_heart_c.y = SCREEN_HEIGHT / 2;
 
 	h->score_hero.couleurNoire.b = 255;
 	h->score_hero.couleurNoire.g = 255;
@@ -61,8 +64,8 @@ void initialiser_hero2(hero *h, char name[20])
 }
 void initialiser_background1(background *b)
 {
-	b->image = IMG_Load("../img/background/x2.jpg");
-	b->background_mask = IMG_Load("../img/background/x2_mask.jpg");
+	b->image = IMG_Load("../img/background/1.jpg");
+	b->background_mask = IMG_Load("../img/background/2.jpg");
 
 	b->posCamera.x = 400;
 	b->posCamera.y = 900;
@@ -108,8 +111,8 @@ void animer_platforme2(platforme *p, int x)
 }
 void initialiser_background2(background *b)
 {
-	b->image = IMG_Load("../img/background/x2.jpg");
-	b->background_mask = IMG_Load("../img/background/x2_mask.jpg");
+	b->image = IMG_Load("../img/background/1.jpg");
+	b->background_mask = IMG_Load("../img/background/2.jpg");
 
 	b->posCamera.x = 400;
 	b->posCamera.y = 900;
@@ -816,19 +819,28 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 	background background1, background2;
 	SDL_Event event;
 	SDL_Rect pos, pos2;
-	character c1=SAFWEN;
-	character c2=SAFWEN;
+	character c1 = SAFWEN;
+	character c2 = SAFWEN;
 
 	int Jcontinuer = 1;
 	int verif = 0;
 	initialiser_background1(&background1);
 	initialiser_background2(&background2);
 
-	SDL_Surface *pencil=IMG_Load("../img/line.png");
+	SDL_Surface *pencil = IMG_Load("../img/line.png");
 	SDL_Rect pos_pencil;
-	pos_pencil.x=0;
-	pos_pencil.y=(SCREEN_HEIGHT/2)-45;
+	pos_pencil.x = 0;
+	pos_pencil.y = (SCREEN_HEIGHT / 2) - 45;
 
+	SDL_Surface *player2wins = IMG_Load("../img/background/player2.png");
+	SDL_Rect pos_player2wins;
+	pos_player2wins.x = -100;
+	pos_player2wins.y = -100;
+
+	SDL_Surface *player1wins = IMG_Load("../img/background/playeronewins.png");
+	SDL_Rect pos_player1wins;
+	pos_player1wins.x = -100;
+	pos_player1wins.y = -100;
 
 	initialiser_hero(&safwen, "safwen");
 	initialiser_hero2(&safwen2, "safwen");
@@ -849,9 +861,6 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 		animer_hero2(&safwen2, safwen2.state, c2);
 		animer_platforme2(&platforme2, 0);
 
-		printf("STATE: %d\n", safwen.state);
-		printf("STATE: %d\n", safwen2.state);
-
 
 		pos.x = 0;
 		pos.y = 0;
@@ -865,10 +874,19 @@ void multiplayer(SDL_Surface *ecran, etat *etat, parameter *p, character c)
 
 		afficher_platforme2(platforme, background1, ecran);
 		afficher_platforme2(platforme2, background2, ecran);
-		afficher_hero1(safwen, ecran, background1,safwen2);
+		afficher_hero1(safwen, ecran, background1, safwen2);
 		afficher_hero2(safwen2, ecran, background2, safwen);
-		SDL_BlitSurface(pencil,NULL,ecran,&pos_pencil);
+		SDL_BlitSurface(pencil, NULL, ecran, &pos_pencil);
+		if ((safwen.position.x >= 3840 && safwen.position.y >= 1100) && (safwen.position.x > safwen2.position.x))
+			SDL_BlitSurface(player1wins, NULL, ecran, &pos_player1wins);
+		if ((safwen2.position.x >= 3840 && safwen2.position.y >= 1100) && (safwen2.position.x > safwen.position.x))
+			SDL_BlitSurface(player2wins, NULL, ecran, &pos_player2wins);
 		SDL_Flip(ecran);
+		if (Jcontinuer == 0)
+		{
+			SDL_EnableKeyRepeat(0, 0);
+			*etat = MENU;
+		}
 	}
 	free_background(&background1);
 	free_background(&background2);

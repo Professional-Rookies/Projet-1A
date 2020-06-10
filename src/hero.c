@@ -494,7 +494,6 @@ void linear_dialogue(dialogue *d, SDL_Surface *ecran)
 		SDL_FillRect(d->dialogue_box, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 		d->talking = 1;
 	}
-	printf("TALKING: %d\n", d->talking);
 	if (d->talking)
 	{
 		tempsActuel = SDL_GetTicks();
@@ -559,8 +558,6 @@ void playing_dialogue(dialogue *d, hero h, SDL_Surface *ecran, timer timer)
 		break;*/
 	}
 
-	printf("LINE: %d\n", d->line);
-	printf("REACHED: %d\n", reached);
 
 	if (!d->talking)
 	{
@@ -732,7 +729,6 @@ void camera_pan(background *b, hero h, int x, int y, int *panning, int duree)
 	static timer t;
 	static int once = 0;
 
-	printf("TIMER FCT: %d\n", t.time.secondes);
 
 	if (first == 0)
 	{

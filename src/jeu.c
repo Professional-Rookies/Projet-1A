@@ -182,18 +182,17 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	while (Jcontinuer)
 	{
-		printf("BOSS: %d\n", boss.vie_boss.nb_vie);
-		if (safwen->position.x >= 1850 && safwen->position.x <= 1950 && safwen->collision_DOWN && !once_p)
+		/*if (safwen->position.x >= 1850 && safwen->position.x <= 1950 && safwen->collision_DOWN && !once_p)
 		{
 			pan = 1;
 			once_p = 1;
-		}
+		}*/
 		if (safwen->position.x >= 7729 && safwen->position.y <= 560 && safwen->collision_DOWN && !once_p2)
 		{
 			pan2 = 1;
 			once_p2 = 1;
 		}
-		printf("CAMERA: (%d,%d)\n", background.posCamera.x, background.posCamera.y);
+
 		if (pan2)
 		{
 			camera_pan(&background, *safwen, 9400, 250, &pan2, 5);
@@ -259,7 +258,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			deplacer_alea_boss(&boss);
 		}
 
-		printf("SAF VIE: %d\n", safwen->vie_hero.nb_vie);
+
 
 		//portal
 		if (safwen->position.x >= 5500 && safwen->position.x <= 5840 && safwen->position.y >= 1070 && safwen->position.y <= 1120)
@@ -290,7 +289,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 			if (saving == 2)
 			{
 				save_game(*safwen, background, c, dialogue);
-				printf("SAVED\n");
+
 				saving = 0;
 				once = 0;
 			}

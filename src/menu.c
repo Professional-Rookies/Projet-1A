@@ -282,8 +282,7 @@ void cheat(SDL_Surface *ecran, etat *etat, parameter p)
 						message.text = TTF_RenderText_Blended(entry.font, "WRONG PASSWORD", message.color);
 						entry_char[0] = '\0';
 					}
-					printf("%s %s\n", pass[hash(entry_char)], pass[hash("password")]);
-					printf("hacked: %s\n", hack(pass));
+
 					break;
 				case SDLK_BACKSPACE:
 					entry_char[strlen(entry_char) - 1] = '\0';

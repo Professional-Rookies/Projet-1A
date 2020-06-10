@@ -294,7 +294,6 @@ void show_time(timer *t, SDL_Surface *screen)
 	time.text = TTF_RenderText_Blended(time.font, cont, time.color);
 	SDL_BlitSurface(time.text, NULL, screen, &time.position);
 
-	printf("%02d:%02d:%02d\n", t->time.heures, t->time.minutes, t->time.secondes);
 }
 
 void afficher_temps(text *t, timer *timer, SDL_Surface *ecran)

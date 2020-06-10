@@ -126,7 +126,6 @@ int AI_enigme(SDL_Surface *screen, hero *h)
         {
             while (SDL_PollEvent(&event))
             {
-                printf("MATCH_COUNT: %d\n", match.MatchCount);
                 switch (event.type)
                 {
                 case SDLK_ESCAPE:
