@@ -1,3 +1,6 @@
+/**
+ * @file jeu.c
+ */
 #include "jeu.h"
 
 #define NB_PLATFORMES 13

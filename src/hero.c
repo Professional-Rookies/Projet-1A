@@ -1,3 +1,6 @@
+/**
+ * @file hero.c
+ */
 #include "hero.h"
 #include "collision.h"
 

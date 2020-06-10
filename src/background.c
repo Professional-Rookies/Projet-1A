@@ -1,3 +1,7 @@
+/**
+* @file background.c
+*/
+
 #include "background.h"
 
 void initialiser_background(background *b, parameter p)

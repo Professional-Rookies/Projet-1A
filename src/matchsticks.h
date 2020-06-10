@@ -14,6 +14,11 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
+
+/**
+ * @struct Text_enigme
+ * @brief for text generation in the enigma
+ */
 typedef struct Text_enigme
 {
 	SDL_Surface *text;
@@ -24,6 +29,11 @@ typedef struct Text_enigme
 	int size;
 } text_enigme;
 
+
+/**
+ * @struct Matchstick
+ * @brief To load the match image
+ */
 typedef struct Matchstick
 {
 	SDL_Surface *Matchstick;

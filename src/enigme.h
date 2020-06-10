@@ -9,6 +9,11 @@
 #include <math.h>
 #include <time.h>
 
+
+/**
+ * @struct enigme 
+ * @brief struct for the enigma
+ */
 typedef struct
 {
     SDL_Surface *background, *bgansewr, *bghover;
@@ -21,7 +26,6 @@ typedef struct
 } enigme;
 
 void enigme_math(SDL_Surface *screen, enigme *E, hero *h);
-//void enigme_math(SDL_Surface *screen,enigme *E);
 void initenigme(enigme *E);
 void afficherenigme(enigme *E, SDL_Surface *screen);
 void freeenigme(enigme *E);

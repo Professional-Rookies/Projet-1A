@@ -1,3 +1,6 @@
+/**
+ * @file main.c
+ */
 #include "background.h"
 #include "entite_secondaire.h"
 #include "hero.h"

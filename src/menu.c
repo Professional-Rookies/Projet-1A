@@ -1,3 +1,6 @@
+/**
+ * @file menu.c
+ */
 #include "menu.h"
 
 #define SIZE 100

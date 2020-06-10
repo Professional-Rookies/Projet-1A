@@ -1,3 +1,6 @@
+/**
+ * @file enigme_math.c
+ */
 #include "enigme.h"
 #include "hero.h"
 

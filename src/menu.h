@@ -13,6 +13,10 @@
 
 
 
+/**
+ * @struct choice_button
+ * @brief To update buttons in the menu
+ */
 typedef enum Choice_button
 {
 	PLAY,
@@ -21,12 +25,22 @@ typedef enum Choice_button
 	BONUS,
 	QUIT,
 }choice_button;
+
+/**
+ * @struct Button
+ * @brief For loading a button
+ */
 typedef struct Button
 {
 	SDL_Surface *image;
 	SDL_Rect position;
 }button;
 
+
+/**
+ * @struct Choice
+ * @brief To account for the choice
+ */
 typedef enum Choice
 {
 	SAF,

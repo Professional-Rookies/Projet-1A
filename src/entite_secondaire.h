@@ -9,6 +9,11 @@
 #include "hero.h"
 #include "defs.h"
 
+
+/**
+ * @struct Sprite_entite
+ * @brief To load the enemy sprite
+ */
 typedef struct Sprite_entite
 {
     SDL_Surface *image;
@@ -16,6 +21,11 @@ typedef struct Sprite_entite
     int curframe, maxframe;
 } sprite_entite;
 
+
+/**
+ * @struct state_entite
+ * @brief describes the enemy state
+ */
 typedef enum State_entite
 {
     WALK_entite,
@@ -24,6 +34,11 @@ typedef enum State_entite
     FOLLOW_entite
 } state_entite;
 
+
+/**
+ * @struct Type
+ * @brief the collision type
+ */
 typedef enum Type
 {
     HERO,
@@ -31,6 +46,11 @@ typedef enum Type
     COIN
 } type;
 
+
+/**
+ * @struct Entite
+ * @brief General entity struct
+ */
 typedef struct Entite
 {
     SDL_Rect posMax;
@@ -45,6 +65,11 @@ typedef struct Entite
     int vitesse;
 } entite;
 
+
+/**
+ * @struct power_up
+ * @brief the power up you collect
+ */
 typedef struct Power_up
 {
     sprite sprite;
@@ -53,6 +78,11 @@ typedef struct Power_up
     SDL_Rect pos_init;
 } power_up;
 
+
+/**
+ * @struct heart
+ * @brief the heart you collect
+ */
 typedef struct Heart
 {
     SDL_Surface *image;
@@ -61,6 +91,7 @@ typedef struct Heart
     SDL_Rect pos_init;
 } heart;
 
+
 typedef struct Mat
 {
     SDL_Surface *image;
@@ -68,6 +99,11 @@ typedef struct Mat
     SDL_Rect position_init;
 } mat;
 
+
+/**
+ * @struct Boss
+ * @brief the boss stuct
+ */
 typedef struct Boss
 {
     SDL_Rect posMax;

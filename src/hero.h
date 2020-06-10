@@ -10,7 +10,11 @@
 #include "background.h"
 #include "defs.h"
 
-//! decrit l'etat de l'hero et est utilisé comme parametre dans les fonctions animer_hero, deplacer_hero etc ...
+
+/**
+ * @struct State
+ * @brief Describe the hero state
+ */
 typedef enum State
 {
     IDLE,
@@ -24,13 +28,21 @@ typedef enum State
     KICK,
     FALLING
 } state;
-//! decrit la direction de l'hero et sert comme parametre pour la fonction animer_hero
+
+/**
+ * @struct Direction
+ * @brief Describe the hero direction
+ */
 typedef enum Direction
 {
     RIGHT,
     LEFT
 } direction;
-//! ustilisé dans la fonction animer_hero en parcourant le spritesheet selon STATE de l'hero
+
+/**
+ * @struct Sprite
+ * @brief to load and update the sprite
+ */
 typedef struct Sprite
 {
     SDL_Surface *image;
@@ -38,6 +50,11 @@ typedef struct Sprite
     int curframe, maxframe;
 } sprite;
 
+
+/**
+ * @struct Vie
+ * @brief For life parameters
+ */
 typedef struct Vie
 {
     SDL_Surface *heart;
@@ -47,6 +64,11 @@ typedef struct Vie
     int nb_vie;
 } vie;
 
+
+/**
+ * @struct Score
+ * @brief For score updating
+ */
 typedef struct Score
 {
     SDL_Surface *texte_score;
@@ -56,7 +78,10 @@ typedef struct Score
     int valeur_score;
 } score;
 
-//! structure de l'hero qui utilise d'autres structures définies (sprite, vie et score) et des enum (direction et state)
+/**
+ * @struct Hero
+ * @brief anything used by the main character
+ */
 typedef struct Hero
 {
     SDL_Rect position;
@@ -67,9 +92,13 @@ typedef struct Hero
     direction direction;
     vie vie_hero;
     score score_hero;
-
 } hero;
 
+
+/**
+ * @struct Dialogue
+ * @brief To load the dialogue in the game
+ */
 typedef struct Dialogue
 {
     text text;

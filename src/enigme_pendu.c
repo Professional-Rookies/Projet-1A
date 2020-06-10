@@ -1,3 +1,6 @@
+/**
+ * @file enigme_pendu.c
+ */
 #include "pendu.h"
 
 int enigme_pendu(SDL_Surface *screen, hero *h)

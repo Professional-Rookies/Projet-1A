@@ -7,6 +7,11 @@
 #include <time.h>
 #include "SDL/SDL_ttf.h"
 
+
+/**
+ * @struct etat
+ * @brief for the game state
+ */
 typedef enum etat
 {
     MENU,
@@ -24,6 +29,11 @@ typedef enum etat
     STORY_INTRO
 } etat;
 
+
+/**
+ * @struct character
+ * @brief for character choice
+ */
 typedef enum Character
 {
     SAFWEN,
@@ -31,6 +41,11 @@ typedef enum Character
     FIRAS,
 }character;
 
+
+/**
+ * @struct parameter
+ * @brief for the game settings
+ */
 typedef struct Parameter
 {
     Mix_Music *music;

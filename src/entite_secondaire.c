@@ -1,3 +1,6 @@
+/**
+ * @file entite_secondaire.c
+ */
 #include "entite_secondaire.h"
 #include "collision.h"
 

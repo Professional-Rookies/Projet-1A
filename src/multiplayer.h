@@ -13,6 +13,7 @@
 #include "defs.h"
 #include "enigme.h"
 #include "menu.h"
+
 void animer_platforme2(platforme *p, int x);
 void afficher_platforme2(platforme p, background b, SDL_Surface *ecran);
 void initialiser_platforme2(platforme *p, int x, int y);

@@ -1,3 +1,6 @@
+/**
+ * @file fcts_enigmeMath.c
+ */
 #include "enigme.h"
 
 void initenigme(enigme *E)

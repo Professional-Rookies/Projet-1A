@@ -9,6 +9,10 @@
 #include "defs.h"
 #include "structs.h"
 
+/**
+ * @struct background
+ * @brief for background
+ */
 typedef struct Background
 {
 	SDL_Surface *image;
@@ -21,6 +25,10 @@ typedef struct Background
 	SDL_Rect pos_platform;
 } background;
 
+/**
+ * @struct platforme
+ * @brief for platforme
+ */
 typedef struct Platforme
 {
 	SDL_Surface *image;
@@ -29,6 +37,10 @@ typedef struct Platforme
 	int sens;
 } platforme;
 
+/**
+ * @struct text
+ * @brief for text
+ */
 typedef struct Text
 {
 	SDL_Surface *text;
@@ -38,6 +50,11 @@ typedef struct Text
 	int size;
 } text;
 
+
+/**
+ * @struct heure
+ * @brief for time
+ */
 typedef struct Heure
 {
 	int heures;
@@ -45,6 +62,11 @@ typedef struct Heure
 	int secondes;
 } heure;
 
+
+/**
+ * @struct timer 
+ * @brief to count the time
+ */
 typedef struct Timer
 {
 	int startTicks;
@@ -54,12 +76,22 @@ typedef struct Timer
 	heure time;
 } timer;
 
+
+/**
+ * @struct minimap
+ * @brief for the minimap
+ */
 typedef struct Minimap
 {
 	SDL_Surface *image, *hero;
 	SDL_Rect pos_image,pos_hero;
 }minimap;
 
+
+/**
+ * @struct Portal
+ * @brief for the portal
+ */
 typedef struct Portal
 {
 	SDL_Surface *still[4],*enter[15];
