@@ -62,6 +62,8 @@ void initialiser_plats(platforme plats[], int n)
 
 	initialiser_platforme(&plats[12], 7900, 1500, 250, 1);
 
+	initialiser_platforme(&plats[13], 5250, 880, 250, 1);
+
 }
 
 void initialiser_plats_horiz(platforme plats[], int n)

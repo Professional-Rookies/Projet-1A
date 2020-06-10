@@ -1,6 +1,6 @@
 #include "jeu.h"
 
-#define NB_PLATFORMES 13
+#define NB_PLATFORMES 14
 #define NB_PLATFORMES_HORIZ 2
 #define NB_COINS 5
 #define NB_HEARTS 1
