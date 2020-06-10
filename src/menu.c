@@ -1,3 +1,8 @@
+/**
+ * @file menu.c
+ * @date jun 1,2020
+*/
+
 #include "menu.h"
 
 #define SIZE 100
@@ -838,7 +843,16 @@ void game_load(hero *h, background *b, etat *etat, SDL_Surface *screen, paramete
 	}
 }
 
-//! sauvegarde la position de l'hero, sa vie et son score dans un fichier texte et sera appelée dans la boucle du jeu
+
+
+/**
+ * @brief  sauvegarde la position de l'hero, sa vie et son score dans un fichier texte et sera appelée dans la boucle du jeu
+ * @param h hero
+ * @param b background
+ * @param c caractere
+ * @param d pour sauvegarder ligne de dialogue
+ * @return nothing
+ * */
 void save_game(hero h, background b, character c, dialogue d)
 {
 	FILE *f = NULL;
@@ -859,7 +873,14 @@ void save_game(hero h, background b, character c, dialogue d)
 	}
 	fclose(f);
 }
-//! utilise le fichier txt de sauvegarde pour charger la position de l'hero, sa vie et son score et sera appelée dans l'ecran de chargement de l'hero
+/**
+ * @brief utilise le fichier txt de sauvegarde pour charger la position de l'hero, sa vie et son score et sera appelée dans l'ecran de chargement de l'hero 
+ * @param h charge position hero
+ * @param b charge background
+ * @param c charge caractere choisi dans la partie precedente
+ * @param d pour charger ligne de dialogue
+ * @return nothing
+ * */
 void load_game(hero *h, background *b, character *c, dialogue *d)
 {
 	int i;
@@ -888,7 +909,17 @@ void load_game(hero *h, background *b, character *c, dialogue *d)
 	fclose(f);
 }
 
-//! permet de choisir le spritesheet a charger au depend du hero choisi (character c)
+//! 
+
+/**
+ * @brief permet de choisir le spritesheet a charger au depend du hero choisi (character c)
+ * @param h hero
+ * @param etat pour passage aux autres fonctions des que le chargement est terminé
+ * @param screen pour le blit
+ * @param p choix de musique
+ * @param c choix caractere 
+ * @return nothing
+ * */
 void character_choice(hero *h, etat *etat, SDL_Surface *screen, parameter *p, character *c)
 {
 	SDL_Event event;

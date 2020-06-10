@@ -1,7 +1,17 @@
+/**
+ * @file hero.c
+ * @author Firas et Dhia 
+*/
 #include "hero.h"
 #include "collision.h"
 
-//! initalise la position de l'hero, sa vie et son score et charge les spritesheets
+
+/**
+ * @brief initalise la position de l'hero, sa vie et son score et charge les spritesheets
+ * @param h (passage par adresse pour modificaion"
+ * @param name nom de l'hero
+ * @return nothing
+ * */
 void initialiser_hero(hero *h, char name[20])
 {
 	if (TTF_Init() == -1)
@@ -63,6 +73,15 @@ void initialiser_hero(hero *h, char name[20])
 	h->score_hero.position_texte.y = 10;
 }
 
+
+
+/**
+ * @brief Affichage hero, vie et score
+ * @param h hero
+ * @param screen pour le blit sur screen
+ * @param b pour la position relative
+ * @return nothing
+ * */
 void afficher_hero(hero h, SDL_Surface *screen, background b)
 {
 	if (h.sprite.image != NULL)
@@ -101,7 +120,15 @@ void afficher_hero(hero h, SDL_Surface *screen, background b)
 		SDL_BlitSurface(h.score_hero.texte_score, NULL, screen, &h.score_hero.position_texte);
 	}
 }
-//! Anime l'hero en utilisant le spritesheet en fonction de son STATE
+
+
+/**
+ * @brief Anime l'hero en utilisant le spritesheet en fonction de son STATE
+ * @param h hero
+ * @param movement animation selon STATE
+ * @param c pour fonction animer (choix du spritesheet a utiliser)
+ * @return nothing
+ * */
 void animer_hero(hero *h, state movement, character c)
 {
 	if (h->sprite.image != NULL)

@@ -1,0 +1,5 @@
+<map id="Boss" name="Boss">
+<area shape="rect" id="node1" title=" " alt="" coords="80,95,132,121"/>
+<area shape="rect" id="node2" href="$structSprite__entite.html" title=" " alt="" coords="5,5,100,32"/>
+<area shape="rect" id="node3" href="$structVie.html" title=" " alt="" coords="139,5,180,32"/>
+</map>

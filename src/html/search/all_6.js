@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['score_14',['Score',['../structScore.html',1,'']]],
-  ['sprite_15',['Sprite',['../structSprite.html',1,'']]],
-  ['sprite_5fentite_16',['Sprite_entite',['../structSprite__entite.html',1,'']]]
+  ['heart_12',['Heart',['../structHeart.html',1,'']]],
+  ['hero_13',['Hero',['../structHero.html',1,'Hero'],['../structhero.html',1,'hero']]],
+  ['hero_2ec_14',['hero.c',['../hero_8c.html',1,'']]],
+  ['heure_15',['Heure',['../structHeure.html',1,'']]]
 ];

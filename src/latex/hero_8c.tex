@@ -1,0 +1,138 @@
+\hypertarget{hero_8c}{}\doxysection{hero.\+c File Reference}
+\label{hero_8c}\index{hero.c@{hero.c}}
+{\ttfamily \#include \char`\"{}hero.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}collision.\+h\char`\"{}}\newline
+Include dependency graph for hero.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{hero_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{hero_8c_abd8677bb8e8dd6afd74dfc4ed7ab1311}{initialiser\+\_\+hero}} (\mbox{\hyperlink{structhero}{hero}} $\ast$h, char name\mbox{[}20\mbox{]})
+\begin{DoxyCompactList}\small\item\em initalise la position de l\textquotesingle{}hero, sa vie et son score et charge les spritesheets \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{hero_8c_a98c057202ecb96d77238a9e57e25b35b}{afficher\+\_\+hero}} (\mbox{\hyperlink{structhero}{hero}} h, S\+D\+L\+\_\+\+Surface $\ast$screen, \mbox{\hyperlink{structBackground}{background}} b)
+\begin{DoxyCompactList}\small\item\em Affichage hero, vie et score. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{hero_8c_a70fd82b71fa9dc4f5e19e460df643471}{animer\+\_\+hero}} (\mbox{\hyperlink{structhero}{hero}} $\ast$h, state movement, character c)
+\begin{DoxyCompactList}\small\item\em Anime l\textquotesingle{}hero en utilisant le spritesheet en fonction de son S\+T\+A\+TE. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{hero_8c_a38fde0b313f04acc310571f3ae51605f}\label{hero_8c_a38fde0b313f04acc310571f3ae51605f}} 
+void {\bfseries free\+\_\+hero} (\mbox{\hyperlink{structhero}{hero}} $\ast$h)
+\item 
+\mbox{\Hypertarget{hero_8c_aa2fd5bd8676e74b087a05d79f2e2dea0}\label{hero_8c_aa2fd5bd8676e74b087a05d79f2e2dea0}} 
+void {\bfseries deplacer\+\_\+hero} (\mbox{\hyperlink{structhero}{hero}} $\ast$h, \mbox{\hyperlink{structBackground}{background}} $\ast$b, int $\ast$Jcontinuer, character c, \mbox{\hyperlink{structPlatforme}{platforme}} plats\mbox{[}$\,$\mbox{]}, int $\ast$saving, int n, int $\ast$mini)
+\item 
+\mbox{\Hypertarget{hero_8c_a2541472d3a56031307069cd582df9ae3}\label{hero_8c_a2541472d3a56031307069cd582df9ae3}} 
+void {\bfseries initialiser\+\_\+dialogue} (\mbox{\hyperlink{structDialogue}{dialogue}} $\ast$d, S\+D\+L\+\_\+\+Surface $\ast$ecran, character c)
+\item 
+\mbox{\Hypertarget{hero_8c_a651ad824d8e099e0eea0d865854ba7c0}\label{hero_8c_a651ad824d8e099e0eea0d865854ba7c0}} 
+void {\bfseries linear\+\_\+dialogue} (\mbox{\hyperlink{structDialogue}{dialogue}} $\ast$d, S\+D\+L\+\_\+\+Surface $\ast$ecran)
+\item 
+\mbox{\Hypertarget{hero_8c_a4d3fb7d0532b49959c184d0c0bb4e0cb}\label{hero_8c_a4d3fb7d0532b49959c184d0c0bb4e0cb}} 
+void {\bfseries playing\+\_\+dialogue} (\mbox{\hyperlink{structDialogue}{dialogue}} $\ast$d, \mbox{\hyperlink{structhero}{hero}} h, S\+D\+L\+\_\+\+Surface $\ast$ecran, \mbox{\hyperlink{structTimer}{timer}} \mbox{\hyperlink{structTimer}{timer}})
+\item 
+\mbox{\Hypertarget{hero_8c_afb721c8e2b9801994ae44b19790fabe6}\label{hero_8c_afb721c8e2b9801994ae44b19790fabe6}} 
+void {\bfseries afficher\+\_\+dialogue} (\mbox{\hyperlink{structDialogue}{dialogue}} d, S\+D\+L\+\_\+\+Surface $\ast$ecran)
+\item 
+\mbox{\Hypertarget{hero_8c_a216e31a4312808182269cc50f9fc36fc}\label{hero_8c_a216e31a4312808182269cc50f9fc36fc}} 
+void {\bfseries free\+\_\+dialogue} (\mbox{\hyperlink{structDialogue}{dialogue}} $\ast$d)
+\item 
+\mbox{\Hypertarget{hero_8c_ae5d431e456c0fb41b9221a0099af7a8a}\label{hero_8c_ae5d431e456c0fb41b9221a0099af7a8a}} 
+void {\bfseries initialiser\+\_\+minimap} (\mbox{\hyperlink{structMinimap}{minimap}} $\ast$m, \mbox{\hyperlink{structBackground}{background}} b, \mbox{\hyperlink{structhero}{hero}} h)
+\item 
+\mbox{\Hypertarget{hero_8c_ac18966a0126b961c04800a3155887149}\label{hero_8c_ac18966a0126b961c04800a3155887149}} 
+void {\bfseries afficher\+\_\+minimap} (\mbox{\hyperlink{structMinimap}{minimap}} $\ast$m, \mbox{\hyperlink{structhero}{hero}} h, S\+D\+L\+\_\+\+Surface $\ast$screen, int mini)
+\item 
+\mbox{\Hypertarget{hero_8c_a61f3fa11da6487fcc2e57edc0cecbac9}\label{hero_8c_a61f3fa11da6487fcc2e57edc0cecbac9}} 
+void {\bfseries free\+\_\+minimap} (\mbox{\hyperlink{structMinimap}{minimap}} $\ast$m)
+\item 
+\mbox{\Hypertarget{hero_8c_ae2f8decb0a83e4c2a2469df3a783a840}\label{hero_8c_ae2f8decb0a83e4c2a2469df3a783a840}} 
+void {\bfseries initialiser\+\_\+portal} (\mbox{\hyperlink{structPortal}{portal}} $\ast$p)
+\item 
+\mbox{\Hypertarget{hero_8c_ac5f2549b68aeb74f058ab3b508fc727f}\label{hero_8c_ac5f2549b68aeb74f058ab3b508fc727f}} 
+void {\bfseries animer\+\_\+portal} (\mbox{\hyperlink{structPortal}{portal}} $\ast$p)
+\item 
+\mbox{\Hypertarget{hero_8c_a455ef28b1b5c65f43ba7266257b901ec}\label{hero_8c_a455ef28b1b5c65f43ba7266257b901ec}} 
+void {\bfseries afficher\+\_\+portal} (\mbox{\hyperlink{structPortal}{portal}} p, \mbox{\hyperlink{structBackground}{background}} b, \mbox{\hyperlink{structhero}{hero}} h, S\+D\+L\+\_\+\+Surface $\ast$screen)
+\item 
+\mbox{\Hypertarget{hero_8c_a39d809155f2772d9292d090ac8db29f2}\label{hero_8c_a39d809155f2772d9292d090ac8db29f2}} 
+void {\bfseries free\+\_\+portal} (\mbox{\hyperlink{structPortal}{portal}} $\ast$p)
+\item 
+\mbox{\Hypertarget{hero_8c_a1d7d40f603f0e3d6bfbf0aad6257c7da}\label{hero_8c_a1d7d40f603f0e3d6bfbf0aad6257c7da}} 
+void {\bfseries camera\+\_\+pan} (\mbox{\hyperlink{structBackground}{background}} $\ast$b, \mbox{\hyperlink{structhero}{hero}} h, int x, int y, int $\ast$panning, int duree)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Firas et Dhia 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{hero_8c_a98c057202ecb96d77238a9e57e25b35b}\label{hero_8c_a98c057202ecb96d77238a9e57e25b35b}} 
+\index{hero.c@{hero.c}!afficher\_hero@{afficher\_hero}}
+\index{afficher\_hero@{afficher\_hero}!hero.c@{hero.c}}
+\doxysubsubsection{\texorpdfstring{afficher\_hero()}{afficher\_hero()}}
+{\footnotesize\ttfamily void afficher\+\_\+hero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structhero}{hero}}}]{h,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{screen,  }\item[{\mbox{\hyperlink{structBackground}{background}}}]{b }\end{DoxyParamCaption})}
+
+
+
+Affichage hero, vie et score. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em h} & hero \\
+\hline
+{\em screen} & pour le blit sur screen \\
+\hline
+{\em b} & pour la position relative \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nothing 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hero_8c_a70fd82b71fa9dc4f5e19e460df643471}\label{hero_8c_a70fd82b71fa9dc4f5e19e460df643471}} 
+\index{hero.c@{hero.c}!animer\_hero@{animer\_hero}}
+\index{animer\_hero@{animer\_hero}!hero.c@{hero.c}}
+\doxysubsubsection{\texorpdfstring{animer\_hero()}{animer\_hero()}}
+{\footnotesize\ttfamily void animer\+\_\+hero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structhero}{hero}} $\ast$}]{h,  }\item[{state}]{movement,  }\item[{character}]{c }\end{DoxyParamCaption})}
+
+
+
+Anime l\textquotesingle{}hero en utilisant le spritesheet en fonction de son S\+T\+A\+TE. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em h} & hero \\
+\hline
+{\em movement} & animation selon S\+T\+A\+TE \\
+\hline
+{\em c} & pour fonction animer (choix du spritesheet a utiliser) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nothing 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hero_8c_abd8677bb8e8dd6afd74dfc4ed7ab1311}\label{hero_8c_abd8677bb8e8dd6afd74dfc4ed7ab1311}} 
+\index{hero.c@{hero.c}!initialiser\_hero@{initialiser\_hero}}
+\index{initialiser\_hero@{initialiser\_hero}!hero.c@{hero.c}}
+\doxysubsubsection{\texorpdfstring{initialiser\_hero()}{initialiser\_hero()}}
+{\footnotesize\ttfamily void initialiser\+\_\+hero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structhero}{hero}} $\ast$}]{h,  }\item[{char}]{name\mbox{[}20\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+initalise la position de l\textquotesingle{}hero, sa vie et son score et charge les spritesheets 
+
+
+\begin{DoxyParams}{Parameters}
+{\em h} & (passage par adresse pour modificaion" \\
+\hline
+{\em name} & nom de l\textquotesingle{}hero \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nothing 
+\end{DoxyReturn}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: collision.h Source File</title>
+<title>Rookie Tales: collision.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Rookie Tales
    </div>
   </td>
  </tr>
@@ -73,15 +73,18 @@ $(function() {
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;background.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;SDL_Color GetPixel(SDL_Surface *pSurface, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> CollisionParfaite(<a class="code" href="structHero.html">hero</a> *h, <a class="code" href="structBackground.html">background</a> b);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">int</span> collision_platforme(<a class="code" href="structHero.html">hero</a> *h, <a class="code" href="structPlatforme.html">platforme</a> plats[], <span class="keywordtype">int</span> n);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">//int Colision_bb(hero *h, entite *e);</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">int</span> collision(<a class="code" href="structEntite.html">entite</a> *E, <a class="code" href="structHero.html">hero</a> *h);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> CollisionParfaite(<a class="code" href="structhero.html">hero</a> *h, <a class="code" href="structBackground.html">background</a> b);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">int</span> collision_platforme(<a class="code" href="structhero.html">hero</a> *h, <a class="code" href="structPlatforme.html">platforme</a> plats[], <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">int</span> collision_platforme2(<a class="code" href="structhero.html">hero</a> *h, <a class="code" href="structPlatforme.html">platforme</a> plats[], <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//int Colision_bb(hero *h, entite *e);</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">int</span> collision(<a class="code" href="structEntite.html">entite</a> *E, <a class="code" href="structhero.html">hero</a> *h);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">int</span> collision_boss(<a class="code" href="structBoss.html">boss</a> *e, <a class="code" href="structhero.html">hero</a> *h);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructHero_html"><div class="ttname"><a href="structHero.html">Hero</a></div><div class="ttdoc">structure de l'hero qui utilise d'autres structures définies (sprite, vie et score) et des enum (dire...</div><div class="ttdef"><b>Definition:</b> hero.h:60</div></div>
+<div class="ttc" id="astructBoss_html"><div class="ttname"><a href="structBoss.html">Boss</a></div><div class="ttdef"><b>Definition:</b> entite_secondaire.h:71</div></div>
 <div class="ttc" id="astructPlatforme_html"><div class="ttname"><a href="structPlatforme.html">Platforme</a></div><div class="ttdef"><b>Definition:</b> background.h:24</div></div>
-<div class="ttc" id="astructEntite_html"><div class="ttname"><a href="structEntite.html">Entite</a></div><div class="ttdef"><b>Definition:</b> entite_secondaire.h:35</div></div>
+<div class="ttc" id="astructhero_html"><div class="ttname"><a href="structhero.html">hero</a></div><div class="ttdoc">structure de l'hero qui utilise d'autres structures définies (sprite, vie et score) et des enum (dire...</div></div>
+<div class="ttc" id="astructEntite_html"><div class="ttname"><a href="structEntite.html">Entite</a></div><div class="ttdef"><b>Definition:</b> entite_secondaire.h:34</div></div>
 <div class="ttc" id="astructBackground_html"><div class="ttname"><a href="structBackground.html">Background</a></div><div class="ttdef"><b>Definition:</b> background.h:12</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['text_17',['Text',['../structText.html',1,'']]],
-  ['text_5fenigme_18',['Text_enigme',['../structText__enigme.html',1,'']]],
-  ['timer_19',['Timer',['../structTimer.html',1,'']]]
+  ['initialiser_5fhero_16',['initialiser_hero',['../hero_8c.html#abd8677bb8e8dd6afd74dfc4ed7ab1311',1,'hero.c']]]
 ];
