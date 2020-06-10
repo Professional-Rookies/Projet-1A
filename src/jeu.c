@@ -152,17 +152,17 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	SDL_Rect pos_enigme1, pos_enigme2, pos_enigme3, pos_enigme4;
 
-	pos_enigme1.x = 3410;
-	pos_enigme1.y = 1320;
+	pos_enigme1.x = 3400;
+	pos_enigme1.y = 1300;
 
-	pos_enigme2.x = 1100;
-	pos_enigme2.y = 1570;
+	pos_enigme2.x = 1050;
+	pos_enigme2.y = 985;
 
-	pos_enigme3.x = 6793;
-	pos_enigme3.y = 2180;
+	pos_enigme3.x = 5120;
+	pos_enigme3.y = 680;
 
-	pos_enigme4.x = 6770;
-	pos_enigme4.y = 670;
+	pos_enigme4.x = 6900;
+	pos_enigme4.y = 940;
 
 	text save_text;
 	initialiser_text(&save_text, "", 315, 320, 10);
@@ -178,7 +178,7 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 
 	enigme enigMath;
 
-	SDL_Rect posss1, posss2, posss3,posss4;
+	SDL_Rect posss1, posss2, posss3, posss4;
 
 	while (Jcontinuer)
 	{
@@ -206,21 +206,23 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		CollisionParfaite(safwen, background);
 		animer_boss(&boss);
 
-		if (safwen->position.x >= 1000 && safwen->position.x <= 1200 && safwen->position.y <= 1570 && !once_enigme_math)
+		//enigme fcp
+		if (safwen->position.x >= 3440 && safwen->position.x <= 3455 && safwen->position.y <= 1360 && !once_fcp)
+		{
+			enigme_cpf(ecran, safwen);
+			once_fcp = 1;
+			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
+		}
+		//enigme math
+		if (safwen->position.x <= 1100 && safwen->position.x >= 900 && safwen->position.y <= 1055 && !once_enigme_math)
 		{
 			enigme_math(ecran, &enigMath, safwen);
 			once_enigme_math = 1;
 			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
 		}
 
-		if (safwen->position.x <= 3410 && safwen->position.x >= 3450 && safwen->position.y <= 1330 && !once_fcp)
-		{
-			enigme_cpf(ecran, safwen);
-			once_fcp = 1;
-			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-		}
 		//enigme Pendu
-		if (safwen->position.x <= 6800 && safwen->position.x >= 6780 && safwen->position.y <= 2220 && !once_enigme_pendu)
+		if (safwen->position.x <= 5140 && safwen->position.x >= 5160 && safwen->position.y <= 730 && !once_enigme_pendu)
 		{
 			enigme_pendu(ecran, safwen);
 			once_enigme_pendu = 1;
@@ -228,10 +230,11 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		}
 
 		//AI
-		if (safwen->position.x >= 6750 && safwen->position.x <= 6770 && safwen->position.y <= 720 && !once_enigme_AI)
+		if (safwen->position.x >= 6950 && safwen->position.x <= 6900 && safwen->position.y <= 980 && !once_enigme_AI)
 		{
 			AI_enigme(ecran, safwen);
 			once_enigme_AI = 1;
+			ecran = SDL_SetVideoMode(SCREEN_WIDTH_GAME, SCREEN_HEIGHT_GAME, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
 		}
 
 		plat_coll = collision_platforme(safwen, platformes, NB_PLATFORMES);
@@ -344,7 +347,6 @@ void jeu(SDL_Surface *ecran, etat *etat, hero *safwen, parameter *p, character c
 		posss3.y = pos_enigme3.y - background.posCamera.y;
 		posss4.x = pos_enigme4.x - background.posCamera.x;
 		posss4.y = pos_enigme4.y - background.posCamera.y;
-
 
 		if (once_fcp != 1)
 			SDL_BlitSurface(enigme_frames_1[en_frame], NULL, ecran, &posss1);
