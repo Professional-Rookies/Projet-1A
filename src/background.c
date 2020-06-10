@@ -1,4 +1,5 @@
 #include "background.h"
+#include "SDL/SDL_rotozoom.h"
 
 void initialiser_background(background *b, parameter p)
 {
@@ -38,7 +39,12 @@ void initialiser_platforme(platforme *p, int x, int y, int interval, int sens)
 
 void initialiser_plats(platforme plats[], int n)
 {
+
 	initialiser_platforme(&plats[0], 1990, 1120, 680, 1);
+
+
+	
+
 	initialiser_platforme(&plats[1], 3200, 1120, 350, -1);
 
 	initialiser_platforme(&plats[2], 450, 850, 80, 1);
@@ -106,7 +112,10 @@ void initialiser_instructions(text instructions[], int n)
 	}
 	fclose(f);
 
-	initialiser_text(&instructions[0], script[0], 600, 1500, 30);
+	initialiser_text(&instructions[0], script[0], 600, 1300, 30);
+	instructions[0].text=rotozoomSurface(instructions[0].text,20,1.0,1);
+
+
 	initialiser_text(&instructions[1], script[1], 2000, 1500, 30);
 	initialiser_text(&instructions[2], script[2], 1310, 1265, 30);
 	initialiser_text(&instructions[3], script[3], 2700, 1355, 30);
