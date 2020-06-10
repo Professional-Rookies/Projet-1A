@@ -13,7 +13,7 @@ void initialiser_hero(hero *h, char name[20])
 	char image_load[40] = "";
 	char score_str[10] = "";
 
-	h->position.x = 530; //7070;//530;
+	h->position.x = 530;  //7070;//530;
 	h->position.y = 1570; //10;//1570;
 
 	h->current_ground_position = h->position.y;
@@ -523,14 +523,14 @@ void playing_dialogue(dialogue *d, hero h, SDL_Surface *ecran, timer timer)
 
 	passage = reached;
 
-	if (h.position.x >= 800 && h.position.x < 1950 && once != 1)
+	if (h.position.x >= 800 && h.position.x <= 900  && once != 1)
 	{
 
 		once = 1;
 		if (reached != 2)
 			reached++;
 	}
-	else if (h.position.x >= 2000 && h.position.x < 2600 && once != 2)
+	else if (h.position.x >= 2000 && h.position.x < 2100 && once != 2)
 	{
 		once = 2;
 		if (reached != 2)
